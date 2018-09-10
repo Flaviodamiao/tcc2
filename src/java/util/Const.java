@@ -1,0 +1,81 @@
+/*
+ * Copyright (C) 2018 Flávio Almeida
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package util;
+
+import java.io.File;
+
+/**
+ *
+ * @author Flávio Almeida
+ */
+public class Const {
+    
+    private Const(){
+        
+    }
+    
+    /**
+     * Pastas de trabalho do sistema em produção
+     */
+    //public static final String DIRETORIO_SISTEMA = new File("").getAbsolutePath();
+    //public static final String DIRETORIO_REPOSITORIO = Const.DIRETORIO_SISTEMA + "\\repositorio";
+    //public static final String DIRETORIO_INDICE = Const.DIRETORIO_SISTEMA + "\\indice";
+    
+    //As classes de teste dependem diretamente destas constantes
+    public static final String DIRETORIO_TESTES = new File("").getAbsolutePath() + "\\test\\arquivos";
+    public static final String DIRETORIO_REPOSITORIO_TESTES = new File("").getAbsolutePath() + "\\test\\repositorio-teste";
+    public static final String DIRETORIO_INDICE_TESTES = new File("").getAbsolutePath() + "\\test\\indice-teste";
+    
+    
+    public static final String DIRETORIO_SISTEMA = DIRETORIO_TESTES;
+    public static final String DIRETORIO_REPOSITORIO = DIRETORIO_REPOSITORIO_TESTES;
+    public static final String DIRETORIO_INDICE = DIRETORIO_INDICE_TESTES;
+    
+    /**
+     * Configurações para extrair artigos de cada revista.
+     * Configurações para extrair artigos da Revista IGAPÓ
+     */
+    public static final String PADRAO_INICIO_ARTIGO_IGP = "resumo";
+    public static final String PADRAO_FIM_ANALISE_IGP = "(Modelo de artigo da Revista Igapó)";
+    public static final String FONTE_TITULO_IGP = "MyriadPro-Bold";
+    public static final int TAM_FONTE_TITULO_IGP = 12;
+    public static final int TAM_FONTE_NOTA_RODAPE_IGP = 9;
+    public static final String PADRAO_CABECALHO_IGP = "REVISTA DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO IFAM";
+    public static final String PADRAO_RODAPE_IGP = "";
+    
+    /**
+     * Configurações para extrair artigos da Revista NEXUS
+     */
+    public static final String PADRAO_INICIO_ARTIGO_NXS = "resumo";
+    public static final String PADRAO_FIM_ANALISE_NXS = "(Modelo de artigo da Revista Igapó)";
+    public static final String FONTE_TITULO_NXS = "MyriadPro-Bold";
+    public static final int TAM_FONTE_TITULO_NXS = 12;
+    public static final int TAM_FONTE_NOTA_RODAPE_NXS = 9;
+    public static final String PADRAO_CABECALHO_NXS = "REVISTA DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO IFAM";
+    public static final String PADRAO_RODAPE_NXS = "";
+    
+    /**
+     * Configurações para extrair artigos da Revista EDUCITEC
+     */
+    public static final String PADRAO_INICIO_ARTIGO_EDCT = "resumo";
+    public static final String PADRAO_FIM_ANALISE_EDCT = "(Modelo de artigo da Revista Igapó)";
+    public static final String FONTE_TITULO_EDCT = "MyriadPro-Bold";
+    public static final int TAM_FONTE_TITULO_EDCT = 12;
+    public static final int TAM_FONTE_NOTA_RODAPE_EDCT = 9;
+    public static final String PADRAO_CABECALHO_EDCT = "REVISTA DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO IFAM";
+    public static final String PADRAO_RODAPE_EDCT = "";
+}
