@@ -17,21 +17,29 @@
 
 package indexacao;
 
-import extracao.Extrator;
 import util.Const;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Artigo;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.br.BrazilianAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexOptions;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
+import util.FieldUtil;
 
 /**
  * Esta classe indexa artigos recebidos pelo construtor através de uma lista de artigos
@@ -40,6 +48,7 @@ import org.apache.lucene.store.SimpleFSDirectory;
 public class Indexador {
     private List<Artigo> artigos;
     private String dirIndice = Const.DIRETORIO_INDICE;
+    private String mensagem = "";
     
     //Cria objetos padrão para cada tipo de Fieldtype utilizado pelo sistema
     public static final FieldType TYPE_CONTEUDO;
@@ -85,28 +94,43 @@ public class Indexador {
      * Realiza o processo de indexação.
      * Para o processo de análise, utiliza a classe {@link BrazilianAnalyzer}, 
      * que possui uma lista de stop-words e uma classe para radicalização.
-     * @return true se o processo ocerrer normalmente.
-     * @throws IOException 
+     * @return Uma lista com os artigos que não foram indexados ou "null" se
+     * a lista de artigos passada para o construtor estiver vazia. 
      */
-    public boolean indexa() throws IOException{
+    public List<Artigo> indexa(){
         if(!artigos.isEmpty()){
             Analyzer analyzer = new BrazilianAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
-            IndexWriter indexWriter = new IndexWriter(new SimpleFSDirectory(Paths.get(dirIndice)), iwc);
-
-            for(Artigo artigo: artigos){
-                Document doc = getDocument(artigo);
-                System.out.println("Indexando: " + artigo.getTitulo());
-                indexWriter.addDocument(doc);
-            }
-
-            indexWriter.close();
+            IndexWriter indexWriter;
+            List<Artigo> artIndexPreviamente = new ArrayList<>();
             
-            return true;
-        } 
-        
-        return false;
+            try {
+                indexWriter = new IndexWriter(new SimpleFSDirectory(Paths.get(dirIndice)), iwc);
+
+                for(Artigo artigo: artigos){
+                    Document doc = getDocument(artigo);
+                    
+                    if (!estaIndexado(doc)){
+                        System.out.println("Indexando: " + artigo.getTitulo());
+                        indexWriter.addDocument(doc);
+                    } else{
+                        artIndexPreviamente.add(artigo);
+                        mensagem = "Um ou mais artigos já estavam indexados.";
+                    }
+                }
+
+                indexWriter.close();    
+            } catch (IOException ex) {
+                Logger.getLogger(Indexador.class.getName()).log(Level.SEVERE, null, ex);
+                mensagem = "Erro ao tentar indexar o(s) artigo(s).";
+            }
+            
+            return artIndexPreviamente;
+        } else{
+            mensagem = "Não foi encintrado nenhum artigo para ser indexado.";
+            return null;
+        }
     }
     
     private Document getDocument(Artigo artigo){
@@ -131,6 +155,35 @@ public class Indexador {
         document.add(new Field("revista", artigo.getEdicao().getRevista().toString(), TYPE_STORED_ONLY));
         
         return document;
+    }
+    
+    private boolean estaIndexado(Document docNovo){
+        try {
+            Directory diretorioIndice = FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE));
+            
+            if (DirectoryReader.indexExists(diretorioIndice)){
+                IndexReader reader = DirectoryReader.open(diretorioIndice);
+
+                for(int i = 0; i < reader.numDocs(); i++ ){
+                    Document docIndexado = reader.document(i);
+
+                    if (FieldUtil.documentsSaoIguais(docIndexado, docNovo)){
+                        return true;
+                    }
+                }
+            } else{
+                return false;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Indexador.class.getName()).log(Level.SEVERE, null, ex);
+            mensagem = "Erro ao verificar se o(s) artigo(s) já está(ão) indexado(s).";
+        }
+        
+        return false;
+    }
+    
+    public String getMensagem(){
+        return mensagem;
     }
 }
 

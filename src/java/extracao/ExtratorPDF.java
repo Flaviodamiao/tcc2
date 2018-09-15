@@ -64,7 +64,7 @@ class ExtratorPDF extends Extrator{
                 document = PDDocument.load(file);
             } catch (IOException ex) {
                 Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-                mensagemErro = "Erro ao carregar revista. Verifique se o arquivo está corrompido ou se "
+                mensagem = "Erro ao carregar revista. Verifique se o arquivo está corrompido ou se "
                         + "o conteúdo do arquivo está no formato especificado.";
             }
     }
@@ -112,7 +112,7 @@ class ExtratorPDF extends Extrator{
             
             } catch (IOException ex) {
                 Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-                mensagemErro = "Erro ao tentar processar as páginas da edição.";
+                mensagem = "Erro ao tentar processar as páginas da edição.";
             }
         }
         
@@ -141,7 +141,7 @@ class ExtratorPDF extends Extrator{
             artigoExtraido.close();
         } catch (IOException ex) {
             Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-            mensagemErro = "Erro ao gravar artigo em disco.";
+            mensagem = "Erro ao gravar artigo em disco.";
         }
     }
     
@@ -153,7 +153,7 @@ class ExtratorPDF extends Extrator{
             return new PageExtractor(document, pagInicial, pagFinal).extract();
         } catch (IOException ex) {
             Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-            mensagemErro = "Erro ao extrair artigo do documento.";
+            mensagem = "Erro ao extrair artigo do documento.";
         }
         return null;
     }

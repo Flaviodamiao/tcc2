@@ -27,10 +27,10 @@ import util.Const;
  *
  * @author Flávio Almeida
  */
-public abstract class Extrator {
+public abstract class Extrator{
     protected Edicao edicao;
     protected List<Artigo> artigos;
-    protected static String mensagemErro = "";
+    protected static String mensagem = "";
     
     /**
      * Cria uma instância de uma subclasse de acordo com o tipo de arquivo.
@@ -46,7 +46,7 @@ public abstract class Extrator {
             //código que irá retornar um objeto para tratar arquivos do Microsoft Office Word
         }
         
-        mensagemErro = "O arquivo não está em um formato reconhecido pelo sistema.";
+        mensagem = "O arquivo não está em um formato reconhecido pelo sistema.";
         return null;
     }
     
@@ -76,12 +76,8 @@ public abstract class Extrator {
         return destino.getAbsolutePath() + arquivoDestino ;
     }
     
-    /**
-     * Recupera a mensagem de erro, caso ocorra algum.
-     * @return A mensagem informando o erro.
-     */
-    public static String getMensagemErro(){
-        return mensagemErro;
+    public static String getMensagem(){
+        return mensagem;
     }
     
     /** 
