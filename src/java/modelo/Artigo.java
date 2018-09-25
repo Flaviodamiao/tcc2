@@ -34,7 +34,8 @@ public class Artigo {
     private Edicao edicao;
     
     public boolean equals(Artigo artigo){
-        return    this.titulo.equalsIgnoreCase(artigo.getTitulo())
+        return  artigo != null
+                & this.titulo.equalsIgnoreCase(artigo.getTitulo())
                 & this.conteudo.equalsIgnoreCase(artigo.getConteudo()) //Útil nos testes de extração
                 & this.caminho.equalsIgnoreCase(artigo.getCaminho())
                 & this.edicao.equals(edicao)

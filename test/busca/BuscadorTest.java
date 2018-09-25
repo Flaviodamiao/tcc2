@@ -16,9 +16,12 @@
  */
 package busca;
 
+import java.io.IOException;
+import java.util.List;
 import modelo.Artigo;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.ModeloCenario;
 
 /**
  *
@@ -30,9 +33,12 @@ public class BuscadorTest {
     }
 
     @Test
-    public void DeveRetornarUmArtigoEspecifico() {
-        String termosPesquisa = "";
-        Artigo artigoResultado = buscador.buscar(termosPesquisa);
-        assertEquals(artigoEsperado, artigoResultado);
+    public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException {
+        Artigo artigoEsperado = ModeloCenario.getUmArtigo();
+        
+        String termosPesquisa = "pescado";
+        List<Artigo> artigosResultado = new Buscador().buscar(termosPesquisa);
+        
+        assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }
 }

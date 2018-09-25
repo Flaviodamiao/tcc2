@@ -17,10 +17,15 @@
 
 package busca;
 
+import java.util.List;
+import modelo.Artigo;
+
 /**
  *
  * @author Flávio Almeida
  */
 public class Buscador {
-
+    public List<Artigo> buscar(String termosPesquisa){
+        return null;
+    }
 }
