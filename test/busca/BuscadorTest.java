@@ -16,11 +16,30 @@
  */
 package busca;
 
+import extracao.Extrator;
+import indexacao.Indexador;
+import indexacao.IndexadorTest;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import modelo.Artigo;
+import modelo.Edicao;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.FSDirectory;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import util.Const;
+import util.DocumentCenario;
+import util.FieldUtil;
 import util.ModeloCenario;
 
 /**
@@ -28,8 +47,15 @@ import util.ModeloCenario;
  * @author Flávio Almeida
  */
 public class BuscadorTest {
+    private Edicao edicao;
     
     public BuscadorTest() {
+    }
+    
+    @Before
+    public void before() throws IOException{
+        edicao = ModeloCenario.getEdicao();
+        criarIndice();
     }
 
     @Test
@@ -37,8 +63,28 @@ public class BuscadorTest {
         Artigo artigoEsperado = ModeloCenario.getUmArtigo();
         
         String termosPesquisa = "pescado";
-        List<Artigo> artigosResultado = new Buscador().buscar(termosPesquisa);
+        List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
+    }
+    
+    private void criarIndice() throws IOException {
+        String arquivoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
+        Extrator extrator = Extrator.getExtrator(arquivoEdicao, edicao);
+        List<Artigo> artigosRes = extrator.processarEdicao();
+        
+        new Indexador(artigosRes).indexa();
+    }
+    
+    @After
+    public void after() throws IOException{
+        //O índice precisa ser excluído ao final do teste, senão o próximo teste pode falhar
+        Files.walkFileTree(Paths.get(Const.DIRETORIO_INDICE_TESTES), new SimpleFileVisitor<Path>(){
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

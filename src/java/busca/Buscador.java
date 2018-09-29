@@ -17,15 +17,32 @@
 
 package busca;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import modelo.Artigo;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.br.BrazilianAnalyzer;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.FSDirectory;
+import util.Const;
 
 /**
  *
  * @author Flávio Almeida
  */
 public class Buscador {
-    public List<Artigo> buscar(String termosPesquisa){
+    private int hitsPorPagina = 20;
+    
+    public Buscador(int hitsPorPagina){
+        this.hitsPorPagina = hitsPorPagina;
+    }
+    
+    public List<Artigo> buscarEmTextoCompleto(String termosPesquisa) throws IOException{
+        Analyzer analyzer = new BrazilianAnalyzer();
+                
+        IndexReader indexReader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
         return null;
     }
 }

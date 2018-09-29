@@ -18,7 +18,6 @@ package indexacao;
 
 import util.Const;
 import extracao.Extrator;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;

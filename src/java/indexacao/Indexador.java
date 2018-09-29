@@ -145,14 +145,14 @@ public class Indexador {
             autores += s;
         }
         
-        document.add(new Field("titulo", artigo.getTitulo(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
-        document.add(new Field("autores", autores, TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
-        document.add(new Field("conteudo", artigo.getConteudo(), TYPE_CONTEUDO));
-        document.add(new Field("caminho", artigo.getCaminho(), TYPE_STORED_ONLY));
-        document.add(new Field("numeroEdicao", Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_ONLY));
-        document.add(new Field("volumeEdicao", Integer.toString(artigo.getEdicao().getVolume()), TYPE_STORED_ONLY));
-        document.add(new Field("anoEdicao", Integer.toString(artigo.getEdicao().getAno()), TYPE_STORED_ONLY));
-        document.add(new Field("revista", artigo.getEdicao().getRevista().toString(), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_TITULO, artigo.getTitulo(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
+        document.add(new Field(Const.CAMPO_AUTORES, autores, TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_CONTEUDO, artigo.getConteudo(), TYPE_CONTEUDO));
+        document.add(new Field(Const.CAMPO_CAMINHO, artigo.getCaminho(), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_NUMERO_EDICAO, Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_VOLUME_EDICAO, Integer.toString(artigo.getEdicao().getVolume()), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_ANO_EDICAO, Integer.toString(artigo.getEdicao().getAno()), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_REVISTA, artigo.getEdicao().getRevista().toString(), TYPE_STORED_ONLY));
         
         return document;
     }

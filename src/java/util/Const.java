@@ -78,4 +78,19 @@ public class Const {
     public static final int TAM_FONTE_NOTA_RODAPE_EDCT = 9;
     public static final String PADRAO_CABECALHO_EDCT = "REVISTA DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO IFAM";
     public static final String PADRAO_RODAPE_EDCT = "";
+    
+    
+    
+    /**
+     * Nomenclatura dos campos utilizados nos documentos Lucene
+     * Modificar após a indexação de algum artigo, pode torná-lo ilocalizável
+     */
+    public static final String CAMPO_TITULO = "titulo";
+    public static final String CAMPO_AUTORES = "autores";
+    public static final String CAMPO_CONTEUDO = "conteudo";
+    public static final String CAMPO_CAMINHO = "caminho";
+    public static final String CAMPO_NUMERO_EDICAO = "numeroEdicao";
+    public static final String CAMPO_VOLUME_EDICAO = "volumeEdicao";
+    public static final String CAMPO_ANO_EDICAO = "anoEdicao";
+    public static final String CAMPO_REVISTA = "revista";
 }
