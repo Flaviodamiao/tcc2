@@ -19,12 +19,21 @@ package busca;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Artigo;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.br.BrazilianAnalyzer;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import util.Const;
 
@@ -33,16 +42,46 @@ import util.Const;
  * @author Flávio Almeida
  */
 public class Buscador {
-    private int hitsPorPagina = 20;
+    private int hitsPorPagina = 10;
+    private int numTotalHits;
+    private long tempoBusca;
     
-    public Buscador(int hitsPorPagina){
-        this.hitsPorPagina = hitsPorPagina;
+    public Buscador(){
     }
     
-    public List<Artigo> buscarEmTextoCompleto(String termosPesquisa) throws IOException{
+    public List<Artigo> buscarEmTextoCompleto(String termosPesquisa) throws IOException, ParseException{
+        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
+        IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new BrazilianAnalyzer();
-                
-        IndexReader indexReader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
+        QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
+        Query query;
+        
+        try {
+            query = parser.parse(termosPesquisa);
+        } catch (ParseException ex) {
+            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ParseException("Erro ao converter termos em uma Query.");
+        }
+        
+        Date inicioBusca = new Date();
+        TopDocs toPDocs = searcher.search(query, 100);
+        Date fimBusca = new Date();
+        tempoBusca = fimBusca.getTime() - inicioBusca.getTime();
+        
+        ScoreDoc[] hits = toPDocs.scoreDocs;
+        
         return null;
+    }
+    
+    private long getTempoDeBusca(){
+        return tempoBusca;
+    }
+    
+    public void setHitsPorPagina(int hitsPorPagina){
+        this.hitsPorPagina = hitsPorPagina > 10 ? hitsPorPagina : 10;
+    }
+    
+    public int getHitsPorPagina(){
+        return this.hitsPorPagina;
     }
 }
