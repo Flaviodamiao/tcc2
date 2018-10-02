@@ -19,15 +19,21 @@ package busca;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Artigo;
+import modelo.Edicao;
+import modelo.Revista;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.br.BrazilianAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -42,8 +48,7 @@ import util.Const;
  * @author Flávio Almeida
  */
 public class Buscador {
-    private int hitsPorPagina = 10;
-    private int numTotalHits;
+    private long numTotalHits;
     private long tempoBusca;
     
     public Buscador(){
@@ -64,24 +69,49 @@ public class Buscador {
         }
         
         Date inicioBusca = new Date();
-        TopDocs toPDocs = searcher.search(query, 100);
+        TopDocs topDocs = searcher.search(query, 50);
         Date fimBusca = new Date();
         tempoBusca = fimBusca.getTime() - inicioBusca.getTime();
         
-        ScoreDoc[] hits = toPDocs.scoreDocs;
+        numTotalHits = topDocs.totalHits;
+        ScoreDoc[] hits = topDocs.scoreDocs;
         
-        return null;
+        return getArtigos(searcher, hits);
     }
     
-    private long getTempoDeBusca(){
+    private List<Artigo> getArtigos(IndexSearcher searcher, ScoreDoc[] hits) throws IOException{
+        List<Artigo> artigos = new ArrayList();
+        
+        try {
+            for (ScoreDoc hit : hits) {
+                Document doc = searcher.doc(hit.doc);
+                Edicao edicao = new Edicao();
+                Artigo artigo = new Artigo();
+
+                edicao.setRevista(Revista.valueOf(doc.get(Const.CAMPO_REVISTA)));
+                edicao.setVolume(Integer.getInteger(doc.get(Const.CAMPO_VOLUME_EDICAO)));
+                edicao.setAno(Integer.getInteger(doc.get(Const.CAMPO_ANO_EDICAO)));
+                edicao.setNumero(Integer.getInteger(doc.get(Const.CAMPO_NUMERO_EDICAO)));
+                
+                artigo.setTitulo(doc.get(Const.CAMPO_TITULO));
+                artigo.setAutores(Arrays.asList(doc.get(Const.CAMPO_AUTORES).split(" - ")));
+                artigo.setCaminho(doc.get(Const.CAMPO_CAMINHO));
+                artigo.setEdicao(edicao);
+                
+                artigos.add(artigo);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException("Erro ao ler o índice.");
+        }
+        return artigos;
+    }
+    
+    public long getTempoDeBusca(){
         return tempoBusca;
     }
-    
-    public void setHitsPorPagina(int hitsPorPagina){
-        this.hitsPorPagina = hitsPorPagina > 10 ? hitsPorPagina : 10;
-    }
-    
-    public int getHitsPorPagina(){
-        return this.hitsPorPagina;
+
+    public long getNumTotalHits() {
+        return numTotalHits;
     }
 }

@@ -35,7 +35,6 @@ import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
@@ -142,7 +141,7 @@ public class Indexador {
         String autores = "";
         
         for(String s: artigo.getAutores()){
-            autores += s;
+            autores += s + " - ";
         }
         
         document.add(new Field(Const.CAMPO_TITULO, artigo.getTitulo(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
