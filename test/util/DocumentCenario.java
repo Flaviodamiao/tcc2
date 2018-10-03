@@ -44,7 +44,7 @@ public class DocumentCenario {
         String autores = "";
         
         for(String s: artigo.getAutores()){
-            autores += s;
+            autores += s + " - ";
         }
         
         fieldType.setIndexOptions(IndexOptions.NONE);

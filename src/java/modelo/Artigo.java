@@ -37,10 +37,28 @@ public class Artigo {
         return  artigo != null
                 & this.titulo.equalsIgnoreCase(artigo.getTitulo())
                 & this.conteudo.equalsIgnoreCase(artigo.getConteudo()) //Útil nos testes de extração e para exibição de trechos em buscas
-                & this.caminho.equalsIgnoreCase(artigo.getCaminho())
                 & this.edicao.equals(edicao)
                 & this.autores.containsAll(artigo.autores)
                 & artigo.autores.containsAll(this.autores);
+    }
+    
+    @Override
+    public String toString(){
+        System.out.println("Artigo é objeto não nulo: " + (this != null)
+                + "\nTítulo: " + titulo
+                + "\nConteudo: " + conteudo
+                + "\nCaminho: " + caminho
+        );
+        
+        System.out.println("Autores:");
+        
+        for(String autor: autores){
+            System.out.println("\t" + autor);
+        }
+        
+        edicao.toString();
+        
+        return null;
     }
 
     public String getTitulo() {

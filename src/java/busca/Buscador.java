@@ -33,7 +33,6 @@ import org.apache.lucene.analysis.br.BrazilianAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -76,7 +75,10 @@ public class Buscador {
         numTotalHits = topDocs.totalHits;
         ScoreDoc[] hits = topDocs.scoreDocs;
         
-        return getArtigos(searcher, hits);
+        List<Artigo> artigos = getArtigos(searcher, hits);
+        reader.close();
+        
+        return artigos;
     }
     
     private List<Artigo> getArtigos(IndexSearcher searcher, ScoreDoc[] hits) throws IOException{
@@ -87,11 +89,11 @@ public class Buscador {
                 Document doc = searcher.doc(hit.doc);
                 Edicao edicao = new Edicao();
                 Artigo artigo = new Artigo();
-
+                
                 edicao.setRevista(Revista.valueOf(doc.get(Const.CAMPO_REVISTA)));
-                edicao.setVolume(Integer.getInteger(doc.get(Const.CAMPO_VOLUME_EDICAO)));
-                edicao.setAno(Integer.getInteger(doc.get(Const.CAMPO_ANO_EDICAO)));
-                edicao.setNumero(Integer.getInteger(doc.get(Const.CAMPO_NUMERO_EDICAO)));
+                edicao.setVolume(Integer.parseInt(doc.get(Const.CAMPO_VOLUME_EDICAO)));
+                edicao.setAno(Integer.parseInt(doc.get(Const.CAMPO_ANO_EDICAO)));
+                edicao.setNumero(Integer.parseInt(doc.get(Const.CAMPO_NUMERO_EDICAO)));
                 
                 artigo.setTitulo(doc.get(Const.CAMPO_TITULO));
                 artigo.setAutores(Arrays.asList(doc.get(Const.CAMPO_AUTORES).split(" - ")));

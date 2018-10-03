@@ -32,6 +32,7 @@ import modelo.Edicao;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.After;
 import org.junit.Test;
@@ -59,11 +60,18 @@ public class BuscadorTest {
     }
 
     @Test
-    public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException {
+    public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException, ParseException {
         Artigo artigoEsperado = ModeloCenario.getUmArtigo();
+        
+        //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
+        artigoEsperado.setConteudo("");
         
         String termosPesquisa = "pescado";
         List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
+        
+        System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
+        artigoEsperado.toString();
+        artigosResultado.toString();
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }

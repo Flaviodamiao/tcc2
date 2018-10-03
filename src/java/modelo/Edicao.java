@@ -33,6 +33,17 @@ public class Edicao {
                 & this.ano == edicao.getAno();
     }
 
+    @Override
+    public String toString() {
+        System.out.println("Edição é objeto não nulo: " + (this != null)
+                + "\nRevista: " + revista
+                + "\nVolume: " + volume
+                + "\nNumero: " + numero
+                + "\nAno: " + ano
+        );
+        return null;
+    }
+
     public Revista getRevista() {
         return revista;
     }
