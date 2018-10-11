@@ -128,6 +128,7 @@ class ExtratorPDF extends Extrator{
             
             return this.artigos;
         } else{
+            document.close();
             return null;
         }
         

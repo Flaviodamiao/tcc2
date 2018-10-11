@@ -18,7 +18,6 @@ package busca;
 
 import extracao.Extrator;
 import indexacao.Indexador;
-import indexacao.IndexadorTest;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -27,20 +26,16 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Artigo;
 import modelo.Edicao;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.store.FSDirectory;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import util.Const;
-import util.DocumentCenario;
-import util.FieldUtil;
 import util.ModeloCenario;
 
 /**
@@ -59,8 +54,14 @@ public class BuscadorTest {
         criarIndice();
     }
 
+    /**
+     * Deve recuperar apenas um artigo, pois somente ele possui a palavra pesquisada
+     * @throws IOException
+     * @throws ParseException 
+     */
     @Test
     public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException, ParseException {
+        Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste()");
         Artigo artigoEsperado = ModeloCenario.getUmArtigo();
         
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
@@ -69,11 +70,33 @@ public class BuscadorTest {
         String termosPesquisa = "pescado";
         List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
         
-        System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
-        artigoEsperado.toString();
-        artigosResultado.toString();
+        //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
+        //artigoEsperado.toString();
+        //artigosResultado.toString();
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
+    }
+    
+    /**
+     * Verifica se cálculo da similaridade está próximo do esperado
+     * A palavra pesquisada aparece em quantidades diferentes todos os artigos-teste
+     * @throws java.io.IOException
+     * @throws org.apache.lucene.queryparser.classic.ParseException
+     */
+    @Test
+    public void DeveRetornarArtigoNaPosicaoEsperadaTeste() throws IOException, ParseException{
+        Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoNaPosicaoEsperadaTeste");
+        Artigo artigoEsperado = ModeloCenario.getUmArtigo();
+        
+        //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
+        artigoEsperado.setConteudo("");
+        
+        String termosPesquisa = "estudo";
+        List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
+        
+        
+        artigosResultado.get(0).toString();
+        assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(2)));
     }
     
     private void criarIndice() throws IOException {

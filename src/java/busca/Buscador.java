@@ -90,6 +90,10 @@ public class Buscador {
                 Edicao edicao = new Edicao();
                 Artigo artigo = new Artigo();
                 
+                //teste
+                System.out.println("\n\nDocumento " + hit.doc + " ,score: " + hit.score);
+                System.out.println("Título: " + doc.get(Const.CAMPO_TITULO));
+                
                 edicao.setRevista(Revista.valueOf(doc.get(Const.CAMPO_REVISTA)));
                 edicao.setVolume(Integer.parseInt(doc.get(Const.CAMPO_VOLUME_EDICAO)));
                 edicao.setAno(Integer.parseInt(doc.get(Const.CAMPO_ANO_EDICAO)));
