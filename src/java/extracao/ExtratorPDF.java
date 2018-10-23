@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Artigo;
+import mvc.bean.Artigo;
 import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import modelo.Edicao;
+import mvc.bean.Edicao;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 /**

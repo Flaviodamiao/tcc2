@@ -28,8 +28,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Artigo;
-import modelo.Edicao;
+import mvc.bean.Artigo;
+import mvc.bean.Edicao;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.junit.After;
 import org.junit.Test;
@@ -67,8 +67,9 @@ public class BuscadorTest {
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
-        String termosPesquisa = "pescado";
-        List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
+        Artigo artigoBusca = new Artigo();
+        artigoBusca.setConteudo("pescado");
+        List<Artigo> artigosResultado = new Buscador().buscar(artigoBusca);
         
         //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
         //artigoEsperado.toString();
@@ -91,8 +92,9 @@ public class BuscadorTest {
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
-        String termosPesquisa = "estudo";
-        List<Artigo> artigosResultado = new Buscador().buscarEmTextoCompleto(termosPesquisa);
+        Artigo artigoBusca = new Artigo();
+        artigoBusca.setConteudo("estudo");
+        List<Artigo> artigosResultado = new Buscador().buscar(artigoBusca);
         
         
         artigosResultado.get(0).toString();

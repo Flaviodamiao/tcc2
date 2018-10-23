@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package modelo;
+package mvc.bean;
 
 import java.util.List;
 

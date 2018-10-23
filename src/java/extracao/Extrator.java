@@ -19,8 +19,8 @@ package extracao;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import modelo.Artigo;
-import modelo.Edicao;
+import mvc.bean.Artigo;
+import mvc.bean.Edicao;
 import util.Const;
 
 /**

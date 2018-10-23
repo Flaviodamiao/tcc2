@@ -25,9 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Artigo;
-import modelo.Edicao;
-import modelo.Revista;
+import mvc.bean.Artigo;
+import mvc.bean.Edicao;
+import mvc.bean.Revista;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.br.BrazilianAnalyzer;
 import org.apache.lucene.document.Document;
@@ -53,7 +53,7 @@ public class Buscador {
     public Buscador(){
     }
     
-    public List<Artigo> buscarEmTextoCompleto(String termosPesquisa) throws IOException, ParseException{
+    public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new BrazilianAnalyzer();
@@ -61,7 +61,7 @@ public class Buscador {
         Query query;
         
         try {
-            query = parser.parse(termosPesquisa);
+            query = parser.parse(artigo.getConteudo());
         } catch (ParseException ex) {
             Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
             throw new ParseException("Erro ao converter termos em uma Query.");

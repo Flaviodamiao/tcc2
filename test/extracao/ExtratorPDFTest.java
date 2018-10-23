@@ -19,9 +19,9 @@ package extracao;
 import util.Const;
 import java.io.IOException;
 import java.util.List;
-import modelo.Artigo;
+import mvc.bean.Artigo;
 import util.ModeloCenario;
-import modelo.Edicao;
+import mvc.bean.Edicao;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**

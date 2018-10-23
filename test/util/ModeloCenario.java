@@ -21,9 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Artigo;
-import modelo.Edicao;
-import modelo.Revista;
+import mvc.bean.Artigo;
+import mvc.bean.Edicao;
+import mvc.bean.Revista;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 

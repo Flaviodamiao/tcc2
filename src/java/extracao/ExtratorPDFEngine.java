@@ -19,7 +19,7 @@ package extracao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Revista;
+import mvc.bean.Revista;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
