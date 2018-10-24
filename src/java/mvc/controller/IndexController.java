@@ -39,7 +39,7 @@ public class IndexController {
         buscador = new Buscador();
     }
     
-    @RequestMapping(value = {"/", "/index"})
+    @RequestMapping(value = {"/", "index"})
     public String index(){
         return "index";
     }
