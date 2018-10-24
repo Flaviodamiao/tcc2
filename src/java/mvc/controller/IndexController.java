@@ -18,11 +18,10 @@
 package mvc.controller;
 
 import busca.Buscador;
-import indexacao.Indexador;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
-import org.apache.lucene.queryparser.classic.ParseException;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.BindingResult;
@@ -32,6 +31,7 @@ import org.springframework.validation.BindingResult;
  * @author Flávio Almeida
  */
 
+@Controller
 public class IndexController {
     private final Buscador buscador;
     
@@ -52,7 +52,7 @@ public class IndexController {
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("msgErro", ex.getMessage());
-            return "/index";
+            return "index";
         }
     }
     
