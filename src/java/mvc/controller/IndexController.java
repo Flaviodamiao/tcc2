@@ -47,12 +47,15 @@ public class IndexController {
     @RequestMapping(value = "/realizarBusca")
     public String realizarBusca(/*@Valid*/Artigo artigo, BindingResult result, Model model){
         try {
-            model.addAttribute("artigos", buscador.buscar(artigo));
-            return "/listarArtigosRecuperados";
+            for(Artigo art: buscador.buscar(artigo)){
+                System.out.println(art.getTitulo());
+            }
+            //model.addAttribute("artigos", buscador.buscar(artigo));
+            return "redirect:/listarArtigosRecuperados";
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("msgErro", ex.getMessage());
-            return "index";
+            return "/index";
         }
     }
     
