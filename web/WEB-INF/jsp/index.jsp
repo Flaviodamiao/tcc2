@@ -20,7 +20,7 @@
 <body>
     <div class="container">
         
-        <!-- Menu topo -->
+        <!-- Menu topo ->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <header>
@@ -31,34 +31,40 @@
 
         <div class="row">
 
-            <!-- Menu lateral -->
+            <!-- Menu lateral ->
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <aside>
                     <iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
                 </aside>
-            </div>
+            </div>-->
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
-                    
+                    <div class="form-group">
+                        <label for="conteudo">Pesquisar no texto completo dos documentos</label>
+                        <input id="conteudo" name="conteudo" type="text">
+                    </div>
+                    <div class="form-roup">
+                        <button id="btnPesquisar" type="submit">Pesquisar</button>
+                    </div>
                 </form>
             </div>
                 
-        </div>
+        <!--/div>
                 
-        <!-- Rodapé -->
+        <!-- Rodapé ->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <footer>
                     <iframe id="ifFooter" src="<c:url value='/fixo/footer.jsp'/>" class="embed-responsive-item"></iframe>
                 </footer>
             </div>	
-        </div>
+        </div-->
     </div>
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script>
+    <!--script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script-->
 </body>
 </html>
