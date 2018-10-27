@@ -30,6 +30,7 @@ import util.Const;
 public abstract class Extrator{
     protected Edicao edicao;
     protected List<Artigo> artigos;
+    protected String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
     protected static String mensagem = "";
     
     /**
@@ -65,7 +66,7 @@ public abstract class Extrator{
     //A paritr da edição informada, cria a estrutura de diretórios onde os artigos serão armazenados
     //Retorna o caminho do artigo
     protected String getCaminhoArtigo(int pagInicial, int pagFinal){
-        String caminhoDestino = Const.DIRETORIO_REPOSITORIO + "\\" + edicao.getRevista() + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();
+        String caminhoDestino = caminhoRepositorio + "\\" + edicao.getRevista() + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();
         String arquivoDestino = "\\artigo_" + edicao.getRevista() + "_vol-" + edicao.getVolume() + "_N-" + edicao.getNumero() + "_pags" + pagInicial + "-" + pagFinal + ".pdf";
         File destino = new File(caminhoDestino);
             
@@ -74,6 +75,11 @@ public abstract class Extrator{
             destino.mkdirs();
         }
         return destino.getAbsolutePath() + arquivoDestino ;
+    }
+    
+    //Para fins de teste
+    public void setCaminhoRepositorio(String caminhoRepositorio){
+        this.caminhoRepositorio = caminhoRepositorio;
     }
     
     public static String getMensagem(){

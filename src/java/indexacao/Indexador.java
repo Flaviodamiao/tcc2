@@ -184,5 +184,10 @@ public class Indexador {
     public String getMensagem(){
         return mensagem;
     }
+    
+    //Para fins de teste da classe
+    public void setDirIndice(String dirIndice){
+        this.dirIndice = dirIndice;
+    }
 }
 

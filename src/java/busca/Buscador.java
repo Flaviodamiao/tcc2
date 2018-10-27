@@ -17,6 +17,7 @@
 
 package busca;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -49,12 +50,13 @@ import util.Const;
 public class Buscador {
     private long numTotalHits;
     private long tempoBusca;
+    private String caminhoIndice = Const.DIRETORIO_INDICE;
     
     public Buscador(){
     }
     
     public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
-        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
+        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(caminhoIndice)));
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new BrazilianAnalyzer();
         QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
@@ -91,8 +93,8 @@ public class Buscador {
                 Artigo artigo = new Artigo();
                 
                 //teste
-                System.out.println("\n\nDocumento " + hit.doc + " ,score: " + hit.score);
-                System.out.println("Título: " + doc.get(Const.CAMPO_TITULO));
+                //System.out.println("\n\nDocumento " + hit.doc + " ,score: " + hit.score);
+                //System.out.println("Título: " + doc.get(Const.CAMPO_TITULO));
                 
                 edicao.setRevista(Revista.valueOf(doc.get(Const.CAMPO_REVISTA)));
                 edicao.setVolume(Integer.parseInt(doc.get(Const.CAMPO_VOLUME_EDICAO)));
@@ -119,5 +121,10 @@ public class Buscador {
 
     public long getNumTotalHits() {
         return numTotalHits;
+    }
+    
+    //Para fins de teste
+    public void setCaminhoIndice(String caminhoIndice){
+        this.caminhoIndice = caminhoIndice;
     }
 }

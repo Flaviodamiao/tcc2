@@ -69,7 +69,9 @@ public class BuscadorTest {
         
         Artigo artigoBusca = new Artigo();
         artigoBusca.setConteudo("pescado");
-        List<Artigo> artigosResultado = new Buscador().buscar(artigoBusca);
+        Buscador buscador = new Buscador();
+        buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
         //artigoEsperado.toString();
@@ -94,7 +96,9 @@ public class BuscadorTest {
         
         Artigo artigoBusca = new Artigo();
         artigoBusca.setConteudo("estudo");
-        List<Artigo> artigosResultado = new Buscador().buscar(artigoBusca);
+        Buscador buscador = new Buscador();
+        buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         
         artigosResultado.get(0).toString();
@@ -104,9 +108,12 @@ public class BuscadorTest {
     private void criarIndice() throws IOException {
         String arquivoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
         Extrator extrator = Extrator.getExtrator(arquivoEdicao, edicao);
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         
-        new Indexador(artigosRes).indexa();
+        Indexador indexador = new Indexador(artigosRes);
+        indexador.setDirIndice(Const.DIRETORIO_INDICE_TESTES);
+        indexador.indexa();
     }
     
     @After

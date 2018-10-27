@@ -61,9 +61,12 @@ public class IndexadorTest {
         
         String artigoEmUmArquivo = Const.DIRETORIO_TESTES + "\\artigo_p16-24.pdf";
         Extrator extrator = Extrator.getExtrator(artigoEmUmArquivo, edicao);
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         
-        new Indexador(artigosRes).indexa();
+        Indexador indexador = new Indexador(artigosRes);
+        indexador.setDirIndice(Const.DIRETORIO_INDICE_TESTES);
+        indexador.indexa();
         
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE_TESTES)));
         Document documentRes = reader.document(0);
