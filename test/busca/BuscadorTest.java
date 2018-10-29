@@ -74,8 +74,8 @@ public class BuscadorTest {
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
-        //artigoEsperado.toString();
-        //artigosResultado.toString();
+        //artigoEsperado.imprimir();
+        //artigosResultado.imprimir();
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }

@@ -33,8 +33,7 @@ public class Edicao {
                 & this.ano == edicao.getAno();
     }
 
-    @Override
-    public String toString() {
+    public String imprimir() {
         System.out.println("Edição é objeto não nulo: " + (this != null)
                 + "\nRevista: " + revista
                 + "\nVolume: " + volume

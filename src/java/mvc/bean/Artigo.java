@@ -42,8 +42,7 @@ public class Artigo {
                 & artigo.autores.containsAll(this.autores);
     }
     
-    @Override
-    public String toString(){
+    public String imprimir(){
         System.out.println("Artigo é objeto não nulo: " + (this != null)
                 + "\nTítulo: " + titulo
                 + "\nConteudo: " + conteudo

@@ -18,6 +18,7 @@ package extracao;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import mvc.bean.Artigo;
 import mvc.bean.Edicao;
@@ -32,6 +33,23 @@ public abstract class Extrator{
     protected List<Artigo> artigos;
     protected String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
     protected static String mensagem = "";
+    
+    //No campo Artigo.caminho será gravado apenas a estrutura de pastas do repositório,
+    //evitando problemas no índice caso a localização do repositório seja mudada
+    protected String caminhoRelEdicao;
+    protected String caminhoGravacao;
+    
+    /**
+     * Substitui o construtor para evitar repetição de código.
+     * @param edicao 
+     */
+    protected Extrator(Edicao edicao){
+        this.edicao = edicao;
+        artigos = new ArrayList<>();
+        caminhoRelEdicao = "\\" + edicao.getRevista() 
+                + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();
+        criaCaminhoGravacao();
+    }
     
     /**
      * Cria uma instância de uma subclasse de acordo com o tipo de arquivo.
@@ -52,7 +70,7 @@ public abstract class Extrator{
     }
     
     //Adiciona cada artigo encontrado à lista de artigos que será retornada
-    protected void adicionarArtigo(String titulo, List<String> autores, String conteudo, String caminho) throws IOException{
+    protected final void adicionarArtigo(String titulo, List<String> autores, String conteudo, String caminho) throws IOException{
         Artigo artigo = new Artigo();
         artigo.setTitulo(titulo);
         artigo.setAutores(autores);
@@ -65,16 +83,21 @@ public abstract class Extrator{
     
     //A paritr da edição informada, cria a estrutura de diretórios onde os artigos serão armazenados
     //Retorna o caminho do artigo
-    protected String getCaminhoArtigo(int pagInicial, int pagFinal){
-        String caminhoDestino = caminhoRepositorio + "\\" + edicao.getRevista() + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();
-        String arquivoDestino = "\\artigo_" + edicao.getRevista() + "_vol-" + edicao.getVolume() + "_N-" + edicao.getNumero() + "_pags" + pagInicial + "-" + pagFinal + ".pdf";
-        File destino = new File(caminhoDestino);
+    protected final String getNomeArtigo(int pagInicial, int pagFinal){
+        return "\\artigo_" + edicao.getRevista() + "_vol-" + edicao.getVolume() 
+                + "_N-" + edicao.getNumero() + "_pags" + pagInicial + "-" + pagFinal + ".pdf";
+    }
+    
+    /**
+     * Cria o caminho absoluto para gravação
+     */
+    protected final void criaCaminhoGravacao(){
+        File destino = new File(caminhoRepositorio + caminhoRelEdicao);
             
         if (!destino.exists()){
             System.out.println("Criando diretório: " + destino.getAbsolutePath());
             destino.mkdirs();
         }
-        return destino.getAbsolutePath() + arquivoDestino ;
     }
     
     //Para fins de teste
@@ -99,5 +122,5 @@ public abstract class Extrator{
      * @param caminho O local no repositório onde a cópia será salva.
      * @throws IOException 
      */
-    protected abstract void gravarEdicaoRepositorio(String caminho) throws IOException;
+    protected abstract void gravarEdicaoRepositorio() throws IOException;
 }

@@ -18,7 +18,6 @@ package extracao;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,15 +41,14 @@ class ExtratorPDF extends Extrator{
     private boolean finalizaAnalise = false;
     
     /**
-     * Construtor solo. Recebe o caminho do arquivo, contendo um mais artigos, 
+     * Construtor solo. Recebe o caminho do arquivo, contendo um ou mais artigos, 
      * e as informações sobre a edição à qual o artigo pertence. 
      * @param arquivo O caminho do arquivo.
      * @param edicao A edição à qual o(s) artigo(s) pertemce(m).
      * @throws IOException 
      */
     protected ExtratorPDF(String arquivo, Edicao edicao) throws IOException{
-        this.edicao = edicao;
-        this.artigos = new ArrayList<>();
+        super(edicao);
         carregarRevista(arquivo);
     }
     
@@ -94,7 +92,7 @@ class ExtratorPDF extends Extrator{
                     if( iniciouArtigo){
                         pagFimArtigo = paginaAtual;
                         PDDocument artigoExtraido = extrairArtigo(pagInicioArtigo, pagFimArtigo);
-                        String caminhoArtigo = getCaminhoArtigo(pagInicioArtigo, pagFimArtigo);
+                        String caminhoArtigo = caminhoRelEdicao + getNomeArtigo(pagInicioArtigo, pagFimArtigo);
                         adicionarArtigo(titulo, autores, new PDFTextStripper().getText(artigoExtraido), caminhoArtigo);
                         gravarArtigo(artigoExtraido, caminhoArtigo);
                         pagInicioArtigo = paginaAtual + 1;
@@ -120,10 +118,10 @@ class ExtratorPDF extends Extrator{
         if(pagInicioArtigo != -1){
             pagFimArtigo = finalizaAnalise ? (paginaAtual) : ultimaPagina;
             PDDocument artigoExtraido = extrairArtigo(pagInicioArtigo, pagFimArtigo);
-            String caminhoArtigo = getCaminhoArtigo(pagInicioArtigo, pagFimArtigo);
+            String caminhoArtigo = caminhoRelEdicao + getNomeArtigo(pagInicioArtigo, pagFimArtigo);
             adicionarArtigo(titulo, autores, new PDFTextStripper().getText(artigoExtraido), caminhoArtigo);
             gravarArtigo(artigoExtraido, caminhoArtigo);
-            gravarEdicaoRepositorio(caminhoArtigo);
+            gravarEdicaoRepositorio();
             document.close();
             
             return this.artigos;
@@ -137,8 +135,8 @@ class ExtratorPDF extends Extrator{
     //Salva um artigo, extraído da edição, no caminho especificado
     private void gravarArtigo(PDDocument artigoExtraido, String caminho){
         try{
-            System.out.println("Salvando artigo: " + caminho);
-            artigoExtraido.save(caminho);
+            System.out.println("Salvando artigo: " + caminhoRepositorio + caminho);
+            artigoExtraido.save(caminhoRepositorio + caminho);
             artigoExtraido.close();
         } catch (IOException ex) {
             Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,10 +159,11 @@ class ExtratorPDF extends Extrator{
     
     
     @Override
-    protected void gravarEdicaoRepositorio(String caminho) throws IOException{
+    protected void gravarEdicaoRepositorio() throws IOException{
+        String caminho = caminhoRepositorio + caminhoRelEdicao + "\\" + edicao.getRevista() + "_vol-" + edicao.getVolume() 
+                + "_N-" + edicao.getNumero() + ".pdf";
         System.out.println("Enviando edição para o repositório, na pasta: " + caminho);
-        document.save(new File(caminho).getParent()
-                + "\\" + edicao.getRevista() + "_vol-" + edicao.getVolume() + "_N-" + edicao.getNumero() + ".pdf");
+        document.save(new File(caminho));
     }
 }
 

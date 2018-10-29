@@ -34,7 +34,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
  */
 public class ModeloCenario {
     private static Edicao edicao = criarEdicao();
-    private static String repositorio = Const.DIRETORIO_REPOSITORIO_TESTES + "\\" + 
+    private static String repositorio = "\\" + 
             edicao.getRevista() + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();;
     
     private ModeloCenario(){
