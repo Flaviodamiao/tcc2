@@ -52,6 +52,7 @@ public class Buscador {
     private long numTotalHits;
     private long tempoBusca;
     private String caminhoIndice = Const.DIRETORIO_INDICE;
+    private String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
     
     public Buscador(){
     }
@@ -59,6 +60,14 @@ public class Buscador {
     public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
         Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
         IndexReader reader;
+        
+        System.out.println("\n\n\n\n");
+        /*for(String s: Const.DIRETORIO_SISTEMA){
+            System.out.println("File: " + s);
+        }*/
+        System.out.println("\n\n\n\n");
+        
+        Logger.getLogger(Buscador.class.getName()).log(Level.INFO, caminhoRepositorio + " ------ " + caminhoIndice);
         
         if(DirectoryReader.indexExists(dirIndice)){
             reader = DirectoryReader.open(dirIndice);
@@ -113,7 +122,7 @@ public class Buscador {
                 
                 artigo.setTitulo(doc.get(Const.CAMPO_TITULO));
                 artigo.setAutores(Arrays.asList(doc.get(Const.CAMPO_AUTORES).split(" - ")));
-                artigo.setCaminho(doc.get(Const.CAMPO_CAMINHO));
+                artigo.setCaminho(caminhoRepositorio + doc.get(Const.CAMPO_CAMINHO));
                 artigo.setEdicao(edicao);
                 
                 artigos.add(artigo);
@@ -136,5 +145,10 @@ public class Buscador {
     //Para fins de teste
     public void setCaminhoIndice(String caminhoIndice){
         this.caminhoIndice = caminhoIndice;
+    }
+    
+    //Para fins de teste
+    public void setCaminhoRepositorio(String caminhoRepositorio){
+        this.caminhoRepositorio = caminhoRepositorio;
     }
 }

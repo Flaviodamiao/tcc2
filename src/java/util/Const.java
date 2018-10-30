@@ -17,7 +17,6 @@
 package util;
 
 import java.io.File;
-import javax.servlet.ServletConfig;
 
 /**
  *
@@ -33,6 +32,7 @@ public class Const {
      * Pastas de trabalho do sistema em produção
      */
     public static final String DIRETORIO_SISTEMA = new File(Const.class.getClassLoader().getResource("").getPath()).getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
+    //public static final String[] DIRETORIO_SISTEMA = new File("").list();
     public static final String DIRETORIO_REPOSITORIO = Const.DIRETORIO_SISTEMA + "\\repositorio";
     public static final String DIRETORIO_INDICE = Const.DIRETORIO_SISTEMA + "\\indice";
     

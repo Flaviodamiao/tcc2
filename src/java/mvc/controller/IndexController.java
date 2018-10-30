@@ -18,6 +18,7 @@
 package mvc.controller;
 
 import busca.Buscador;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
@@ -61,4 +62,10 @@ public class IndexController {
         }
     }
     
+    /*
+    @RequestMapping(value = "/recuperarArtigo")
+    public String recuperarArtigo(Artigo artigo, BindingResult result, Model model){
+        File arquivo = new File(artigo.getCaminho());
+        return "";
+    }//*/
 }

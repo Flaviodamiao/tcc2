@@ -71,6 +71,7 @@ public class BuscadorTest {
         artigoBusca.setConteudo("pescado");
         Buscador buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
+        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
@@ -98,6 +99,7 @@ public class BuscadorTest {
         artigoBusca.setConteudo("estudo");
         Buscador buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
+        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         

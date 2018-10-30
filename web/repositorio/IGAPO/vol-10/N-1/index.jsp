@@ -34,17 +34,21 @@
             <!-- Menu lateral ->
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <aside>
-<iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
+                    <iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
                 </aside>
             </div>-->
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
-                <table>
-                    <th>
-                        <a href="<c:url value='${artigos.get(0).getCaminho()}'/>" target="_self">${artigos.get(0).getTitulo()}</a>
-                    </th>
-                </table>
+                <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
+                    <div class="form-group">
+                        <label for="conteudo">Pesquisar no texto completo dos documentos</label>
+                        <input id="conteudo" name="conteudo" type="text">
+                    </div>
+                    <div class="form-roup">
+                        <button id="btnPesquisar" type="submit">Pesquisar</button>
+                    </div>
+                </form>
             </div>
                 
         <!--/div>
@@ -63,8 +67,8 @@
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
     <!--script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script-->
     <script>
-        if("${msgErro}" !== ""){
-            window.alert("${msgErro}");
+        if("${msgErro}" != ""){
+            window.alert("${msgErro}")
         }
     </script>
 </body>
