@@ -17,7 +17,6 @@
 
 package busca;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.br.BrazilianAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -40,6 +40,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import util.Const;
 
@@ -56,7 +57,16 @@ public class Buscador {
     }
     
     public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
-        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(caminhoIndice)));
+        Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
+        IndexReader reader;
+        
+        if(DirectoryReader.indexExists(dirIndice)){
+            reader = DirectoryReader.open(dirIndice);
+        } else{
+            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, "Não foi localizado nenhum índice na pasta: " + caminhoIndice);
+            throw new IndexNotFoundException("Não foi localizado o índice do sistema!");
+        }
+        
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new BrazilianAnalyzer();
         QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);

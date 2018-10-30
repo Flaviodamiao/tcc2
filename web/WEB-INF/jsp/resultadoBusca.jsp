@@ -63,5 +63,10 @@
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
     <!--script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script-->
+    <script>
+        if("${msgErro}" != ""){
+            window.alert("${msgErro}")
+        }
+    </script>
 </body>
 </html>
