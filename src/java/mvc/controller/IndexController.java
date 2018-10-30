@@ -18,7 +18,6 @@
 package mvc.controller;
 
 import busca.Buscador;
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.BindingResult;
-import util.Const;
 
 /**
  *

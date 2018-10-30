@@ -41,10 +41,10 @@
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <table>
-                    <th><!--form action="<c:url value='/recuperarArtigo'/>" method="post"-->
+                    <th><form action="<c:url value='/recuperarArtigo'/>" method="post">
                         <a href="<c:url value='/'/>">${artigos.get(0).getTitulo()}</a>
                             <input type="hidden" value="${artigos.get(0).getCaminho()}"/>
-                        <!--/form--></th>
+                        </form></th>
                 </table>
             </div>
                 
