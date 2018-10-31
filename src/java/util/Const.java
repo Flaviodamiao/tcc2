@@ -17,24 +17,30 @@
 package util;
 
 import java.io.File;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 
 /**
  *
  * @author Flávio Almeida
  */
 public class Const {
+    //Quando for aplicar o padrao Singleton
+    private static Const instanciaUnica;
+    private final String contextPath;
     
-    private Const(){
-        
+    private Const(HttpServlet httpServlet){
+        this.contextPath = httpServlet.getServletContext().getContextPath();
     }
     
     /**
      * Pastas de trabalho do sistema em produção
      */
+    
     public static final String DIRETORIO_SISTEMA = new File(Const.class.getClassLoader().getResource("").getPath()).getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
-    //public static final String[] DIRETORIO_SISTEMA = new File("").list();
-    public static final String DIRETORIO_REPOSITORIO = Const.DIRETORIO_SISTEMA + "\\repositorio";
-    public static final String DIRETORIO_INDICE = Const.DIRETORIO_SISTEMA + "\\indice";
+    public static final String DIRETORIO_INDICE = DIRETORIO_SISTEMA + "\\build\\web\\indice";
+    public static final String DIRETORIO_REPOSITORIO = DIRETORIO_SISTEMA + "\\build\\web\\repositorio";
+    public static final String CONTEXTO_REPOSITORIO = "\\TCC2\\repositorio";
     
     //As classes de teste dependem diretamente destas constantes
     public static final String DIRETORIO_TESTES = new File("").getAbsolutePath() + "\\test\\arquivos";

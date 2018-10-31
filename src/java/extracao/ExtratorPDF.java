@@ -18,6 +18,7 @@ package extracao;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ class ExtratorPDF extends Extrator{
      * @param edicao A edição à qual o(s) artigo(s) pertemce(m).
      * @throws IOException 
      */
-    protected ExtratorPDF(String arquivo, Edicao edicao) throws IOException{
+    protected ExtratorPDF(InputStream arquivo, Edicao edicao) throws IOException{
         super(edicao);
         carregarRevista(arquivo);
     }
@@ -56,10 +57,9 @@ class ExtratorPDF extends Extrator{
      * Carrega o arquivo da Revista.
      * @param arquivo O arquivo da edição completa ou de um único artigo.
      */
-    private void carregarRevista(String arquivo) throws IOException{
+    private void carregarRevista(InputStream arquivo) throws IOException{
             try {
-                File file = new File(arquivo);
-                document = PDDocument.load(file);
+                document = PDDocument.load(arquivo);
             } catch (IOException ex) {
                 Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
                 mensagem = "Erro ao carregar revista. Verifique se o arquivo está corrompido ou se "

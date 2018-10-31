@@ -52,7 +52,7 @@ public class Buscador {
     private long numTotalHits;
     private long tempoBusca;
     private String caminhoIndice = Const.DIRETORIO_INDICE;
-    private String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
+    private String caminhoRepositorio = Const.CONTEXTO_REPOSITORIO;
     
     public Buscador(){
     }
@@ -122,7 +122,7 @@ public class Buscador {
                 
                 artigo.setTitulo(doc.get(Const.CAMPO_TITULO));
                 artigo.setAutores(Arrays.asList(doc.get(Const.CAMPO_AUTORES).split(" - ")));
-                artigo.setCaminho(caminhoRepositorio + doc.get(Const.CAMPO_CAMINHO));
+                artigo.setCaminho(doc.get(Const.CAMPO_CAMINHO));
                 artigo.setEdicao(edicao);
                 
                 artigos.add(artigo);

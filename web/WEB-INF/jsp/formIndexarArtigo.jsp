@@ -40,11 +40,17 @@
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
-                <table>
-                    <th>
-                        <a href="recuperarArtigo?caminho=${artigos.get(0).getCaminho()}" target="_self">${artigos.get(0).getTitulo()}</a>
-                    </th>
-                </table>
+                <form id="formIndexarArtigo" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
+                    <div class="form-group">
+                        <label for="arquivo" class="control-label col-md-2 col-sm-2">Arquivo da Edição:</label>
+                        <div class="col-md-9 col-sm-9">
+                            <input id="arquivo" type="file" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-roup">
+                        <button id="btnPesquisar" type="submit">Adicionar</button>
+                    </div>
+                </form>
             </div>
                 
         <!--/div>

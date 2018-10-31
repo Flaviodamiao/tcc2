@@ -18,6 +18,7 @@ package extracao;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import mvc.bean.Artigo;
@@ -58,7 +59,7 @@ public abstract class Extrator{
      * @return
      * @throws IOException 
      */
-    public static Extrator getExtrator(String arquivo, Edicao edicao) throws IOException{
+    public static Extrator getExtrator(InputStream arquivo, String formato, Edicao edicao) throws IOException{
         if(arquivo.toLowerCase().endsWith(".pdf")){
             return new ExtratorPDF(arquivo, edicao);
         }else if(arquivo.toLowerCase().endsWith(".doc") || arquivo.toLowerCase().endsWith(".docx")){

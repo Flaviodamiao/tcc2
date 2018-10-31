@@ -18,14 +18,25 @@
 package mvc.controller;
 
 import busca.Buscador;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import util.Const;
 
 /**
  *
@@ -62,10 +73,32 @@ public class IndexController {
         }
     }
     
-    /*
-    @RequestMapping(value = "/recuperarArtigo")
-    public String recuperarArtigo(Artigo artigo, BindingResult result, Model model){
-        File arquivo = new File(artigo.getCaminho());
+    @RequestMapping(value = "/recuperarArtigo", method = RequestMethod.GET)
+    public HttpEntity<byte[]> recuperarArtigo(Artigo artigo, BindingResult result, Model model){
+        HttpEntity<byte[]> httpEntity = null;
+        System.out.println("\n\n\n --------- \nRECUPERAR ARTIGO : " + artigo.getCaminho() + "\n\n---------------\n\n");
+        try {
+            byte[] bytesArq = Files.readAllBytes(Paths.get(Const.DIRETORIO_REPOSITORIO + artigo.getCaminho()));
+            HttpHeaders httpHeaders = new HttpHeaders();
+            String nomeArquivo = artigo.getCaminho().substring(artigo.getCaminho().lastIndexOf("\\"));
+            httpHeaders.add("Content-Disposition", "attachment; filename=\"" + nomeArquivo + "\"");
+            httpEntity = new HttpEntity(bytesArq, httpHeaders);
+        } catch (IOException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return httpEntity;
+    }
+    
+    @RequestMapping(value = "/indexarArtigo")
+    public String indexarArtigo(@RequestParam MultipartFile mpFile, Model model){
+        try {
+            InputStream arquivo = new ByteArrayInputStream(mpFile.getBytes());
+            String nome = mpFile.
+        } catch (Exception ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+            model.addAttribute("msgErro", "");
+        }
         return "";
-    }//*/
+    }
 }
