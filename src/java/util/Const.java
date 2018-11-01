@@ -17,40 +17,23 @@
 package util;
 
 import java.io.File;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
 /**
  *
  * @author Flávio Almeida
  */
 public class Const {
-    //Quando for aplicar o padrao Singleton
-    private static Const instanciaUnica;
-    private final String contextPath;
-    
-    private Const(HttpServlet httpServlet){
-        this.contextPath = httpServlet.getServletContext().getContextPath();
-    }
-    
     /**
      * Pastas de trabalho do sistema em produção
      */
-    
     public static final String DIRETORIO_SISTEMA = new File(Const.class.getClassLoader().getResource("").getPath()).getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath();
-    public static final String DIRETORIO_INDICE = DIRETORIO_SISTEMA + "\\build\\web\\indice";
-    public static final String DIRETORIO_REPOSITORIO = DIRETORIO_SISTEMA + "\\build\\web\\repositorio";
-    public static final String CONTEXTO_REPOSITORIO = "\\TCC2\\repositorio";
+    public static final String DIRETORIO_INDICE = DIRETORIO_SISTEMA + "\\indice";
+    public static final String DIRETORIO_REPOSITORIO = DIRETORIO_SISTEMA + "\\repositorio";
     
     //As classes de teste dependem diretamente destas constantes
     public static final String DIRETORIO_TESTES = new File("").getAbsolutePath() + "\\test\\arquivos";
     public static final String DIRETORIO_REPOSITORIO_TESTES = new File("").getAbsolutePath() + "\\test\\repositorio-teste";
     public static final String DIRETORIO_INDICE_TESTES = new File("").getAbsolutePath() + "\\test\\indice-teste";
-    
-    
-    //public static final String DIRETORIO_SISTEMA = DIRETORIO_TESTES;
-    //public static final String DIRETORIO_REPOSITORIO = DIRETORIO_REPOSITORIO_TESTES;
-    //public static final String DIRETORIO_INDICE = DIRETORIO_INDICE_TESTES;
     
     /**
      * Configurações para extrair artigos de cada revista.

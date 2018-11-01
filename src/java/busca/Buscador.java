@@ -52,7 +52,7 @@ public class Buscador {
     private long numTotalHits;
     private long tempoBusca;
     private String caminhoIndice = Const.DIRETORIO_INDICE;
-    private String caminhoRepositorio = Const.CONTEXTO_REPOSITORIO;
+    private String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
     
     public Buscador(){
     }
@@ -60,14 +60,6 @@ public class Buscador {
     public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
         Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
         IndexReader reader;
-        
-        System.out.println("\n\n\n\n");
-        /*for(String s: Const.DIRETORIO_SISTEMA){
-            System.out.println("File: " + s);
-        }*/
-        System.out.println("\n\n\n\n");
-        
-        Logger.getLogger(Buscador.class.getName()).log(Level.INFO, caminhoRepositorio + " ------ " + caminhoIndice);
         
         if(DirectoryReader.indexExists(dirIndice)){
             reader = DirectoryReader.open(dirIndice);
