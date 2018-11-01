@@ -18,15 +18,18 @@
 package mvc.controller;
 
 import busca.Buscador;
+import extracao.Extrator;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
+import mvc.bean.Edicao;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -90,15 +93,24 @@ public class IndexController {
         return httpEntity;
     }
     
+    @RequestMapping(value = "/formIndexarArtigo")
+    public String formIndexarArtigo(){
+        return "/formIndexarArtigo";
+    }
+    
     @RequestMapping(value = "/indexarArtigo")
-    public String indexarArtigo(@RequestParam MultipartFile mpFile, Model model){
+    public String indexarArtigo(@RequestParam("arquivo") MultipartFile mpFile, Edicao edicao, Model model){
         try {
+            edicao.imprimir();
             InputStream arquivo = new ByteArrayInputStream(mpFile.getBytes());
-            String nome = mpFile.
+            String nome = mpFile.getContentType();
+            System.out.println("\n\n ----- TIPO ARQUIVO: " + nome + "\n------------\n\n");
+            Extrator extrator = Extrator.getExtrator(arquivo, nome, edicao);
+            model.addAttribute("artigos", extrator.processarEdicao());
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("msgErro", "");
         }
-        return "";
+        return "/listaArtigosExtraidos";
     }
 }

@@ -40,35 +40,11 @@
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
-                <form id="formIndexarArtigo" action="<c:url value='/indexarArtigo'/>" method="post" enctype="multipart/form-data" target="_parent">
-                    <div class="form-group">
-                        <label>Revista:</label>
-                        <input type="text" name="revista">
-                    </div>
-                    <div class="form-group">
-                        <label>Ano:</label>
-                        <input type="number" name="ano">
-                    </div>
-                    <div class="form-group">
-                        <label>Volume:</label>
-                        <input type="number" name="volume">
-                    </div>
-                    <div class="form-group">
-                        <label>Número:</label>
-                        <input type="number" name="numero">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="arquivo" class="control-label col-md-2 col-sm-2">Arquivo da Edição:</label>
-                        <div class="col-md-9 col-sm-9">
-                            <input name="arquivo" type="file" class="form-control" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-roup">
-                        <button id="btnPesquisar" type="submit">Adicionar</button>
-                    </div>
-                </form>
+                <table>
+                    <th>
+                        <a href="recuperarArtigo?caminho=${artigos.get(0).getCaminho()}" target="_self">${artigos.get(0).getTitulo()}</a>
+                    </th>
+                </table>
             </div>
                 
         <!--/div>

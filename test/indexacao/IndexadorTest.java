@@ -19,6 +19,7 @@ package indexacao;
 import util.Const;
 import extracao.Extrator;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -60,7 +61,8 @@ public class IndexadorTest {
         Document documentEsp = DocumentCenario.getUmDocument();
         
         String artigoEmUmArquivo = Const.DIRETORIO_TESTES + "\\artigo_p16-24.pdf";
-        Extrator extrator = Extrator.getExtrator(artigoEmUmArquivo, edicao);
+        InputStream arquivo = Files.newInputStream(Paths.get(artigoEmUmArquivo));
+        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         

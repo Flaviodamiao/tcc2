@@ -19,6 +19,7 @@ package busca;
 import extracao.Extrator;
 import indexacao.Indexador;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -109,7 +110,8 @@ public class BuscadorTest {
     
     private void criarIndice() throws IOException {
         String arquivoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
-        Extrator extrator = Extrator.getExtrator(arquivoEdicao, edicao);
+        InputStream arquivo = Files.newInputStream(Paths.get(arquivoEdicao));
+        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         

@@ -60,9 +60,9 @@ public abstract class Extrator{
      * @throws IOException 
      */
     public static Extrator getExtrator(InputStream arquivo, String formato, Edicao edicao) throws IOException{
-        if(arquivo.toLowerCase().endsWith(".pdf")){
+        if(formato.toLowerCase().contains("pdf")){
             return new ExtratorPDF(arquivo, edicao);
-        }else if(arquivo.toLowerCase().endsWith(".doc") || arquivo.toLowerCase().endsWith(".docx")){
+        }else if(formato.toLowerCase().contains("doc")){
             //código que irá retornar um objeto para tratar arquivos do Microsoft Office Word
         }
         

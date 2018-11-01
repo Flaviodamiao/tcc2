@@ -18,6 +18,9 @@ package extracao;
 
 import util.Const;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import mvc.bean.Artigo;
 import util.ModeloCenario;
@@ -37,6 +40,7 @@ public class ExtratorPDFTest {
     
     /**
      * Test of processarEdicao method, of class ExtratorPDF.
+     * @throws java.io.IOException
      */
     @Test
     public void DeveExtrairUmArtigoTeste() throws IOException{
@@ -45,8 +49,8 @@ public class ExtratorPDFTest {
         artigoEmUmArquivo = Const.DIRETORIO_TESTES + "\\artigo_p16-24.pdf";
         Artigo artigo = ModeloCenario.getUmArtigo();
         Edicao edicao = artigo.getEdicao();
-        
-        Extrator extrator = Extrator.getExtrator(artigoEmUmArquivo, edicao);
+        InputStream arquivo = Files.newInputStream(Paths.get(artigoEmUmArquivo));
+        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
         List<Artigo> artigos = extrator.processarEdicao();
         
         assertTrue(artigos.get(0).equals(artigo) & artigos.size() == 1);
@@ -63,7 +67,8 @@ public class ExtratorPDFTest {
         edicaoEmUmArquivo = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
         
         List<Artigo> artigosEsp = ModeloCenario.getTresArtigos();
-        Extrator extrator = Extrator.getExtrator(edicaoEmUmArquivo, artigosEsp.get(0).getEdicao());
+        InputStream arquivo = Files.newInputStream(Paths.get(edicaoEmUmArquivo));
+        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", artigosEsp.get(0).getEdicao());
         List<Artigo> artigosRes = extrator.processarEdicao();
         
         assertTrue(artigosRes.get(0).equals(artigosEsp.get(0)) 

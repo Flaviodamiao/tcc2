@@ -42,7 +42,7 @@ public class Artigo {
                 & artigo.autores.containsAll(this.autores);
     }
     
-    public String imprimir(){
+    public void imprimir(){
         System.out.println("Artigo é objeto não nulo: " + (this != null)
                 + "\nTítulo: " + titulo
                 + "\nConteudo: " + conteudo
@@ -56,8 +56,6 @@ public class Artigo {
         }
         
         edicao.toString();
-        
-        return null;
     }
 
     public String getTitulo() {
