@@ -70,11 +70,11 @@ public class Buscador {
         
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new BrazilianAnalyzer();
-        QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
+        QueryParser parser = new QueryParser(Const.CAMPO_TITULO, analyzer);
         Query query;
         
         try {
-            query = parser.parse(artigo.getConteudo());
+            query = parser.parse(artigo.getTitulo());
         } catch (ParseException ex) {
             Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
             throw new ParseException("Erro ao converter termos em uma Query.");

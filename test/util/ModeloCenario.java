@@ -46,7 +46,7 @@ public class ModeloCenario {
     }
     
     public static Artigo getUmArtigo() throws IOException{
-        Artigo artigo = criarArtigoUm();
+        Artigo artigo = criarArtigoDois();
         
         //Este valor deve ser atribuído pois, como o arquivo possui um único artigo,
         //ao ser extraído, o sistema encontra seu início na primeira página
@@ -74,7 +74,7 @@ public class ModeloCenario {
         return edicao;
     }
     
-    private static Artigo criarArtigoUm() throws IOException{
+    public static Artigo criarArtigoUm() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         
@@ -93,7 +93,7 @@ public class ModeloCenario {
         return artigo; 
     }
     
-    private static Artigo criarArtigoDois() throws IOException{
+    public static Artigo criarArtigoDois() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         
@@ -115,7 +115,7 @@ public class ModeloCenario {
         return artigo;
     }
     
-    private static Artigo criarArtigoTres() throws IOException{
+    public static Artigo criarArtigoTres() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         

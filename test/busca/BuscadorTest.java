@@ -63,13 +63,13 @@ public class BuscadorTest {
     @Test
     public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException, ParseException {
         Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste()");
-        Artigo artigoEsperado = ModeloCenario.getUmArtigo();
+        Artigo artigoEsperado = ModeloCenario.criarArtigoUm();
         
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
         Artigo artigoBusca = new Artigo();
-        artigoBusca.setConteudo("pescado");
+        artigoBusca.setTitulo("pescado");
         Buscador buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
         buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
@@ -91,21 +91,21 @@ public class BuscadorTest {
     @Test
     public void DeveRetornarArtigoNaPosicaoEsperadaTeste() throws IOException, ParseException{
         Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoNaPosicaoEsperadaTeste");
-        Artigo artigoEsperado = ModeloCenario.getUmArtigo();
+        Artigo artigoEsperado = ModeloCenario.criarArtigoDois();
         
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
         Artigo artigoBusca = new Artigo();
-        artigoBusca.setConteudo("estudo");
+        artigoBusca.setTitulo("temperatura");
         Buscador buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
         buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         
-        artigosResultado.get(0).toString();
-        assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(2)));
+        artigosResultado.get(0).imprimir();
+        assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }
     
     private void criarIndice() throws IOException {
