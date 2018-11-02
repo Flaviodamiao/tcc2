@@ -97,15 +97,22 @@ public class BuscadorTest {
         artigoEsperado.setConteudo("");
         
         Artigo artigoBusca = new Artigo();
-        artigoBusca.setTitulo("temperatura");
+        artigoBusca.setConteudo("estudo");
         Buscador buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
         buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
+        System.out.println("\n\n ---------- \n ----------- \n\nLista: ");
+        System.out.println("Size: " + artigosResultado.size());
+        //artigosResultado.get(0).imprimir();
+        System.out.println("\n\n ---------- \n ----------- \n\n");
+        assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(0)));
+    }
+    
+    @Test
+    public void deveFiltrarBuscaPorTitulo(){
         
-        artigosResultado.get(0).imprimir();
-        assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }
     
     private void criarIndice() throws IOException {

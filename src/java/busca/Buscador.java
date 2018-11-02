@@ -57,41 +57,44 @@ public class Buscador {
     public Buscador(){
     }
     
-    public List<Artigo> buscar(Artigo artigo) throws IOException, ParseException{
-        Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
-        IndexReader reader;
+    public List<Artigo> buscar(Artigo artigo) throws ParseException, IOException {
+        try{
+            Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
+            IndexReader reader;
+
+            if(DirectoryReader.indexExists(dirIndice)){
+                reader = DirectoryReader.open(dirIndice);
+            } else{
+                Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, "Não foi localizado nenhum índice na pasta: " + caminhoIndice);
+                throw new IndexNotFoundException("Não foi localizado o índice do sistema!");
+            }
+
+            IndexSearcher searcher = new IndexSearcher(reader);
+            Analyzer analyzer = new BrazilianAnalyzer();
+            QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
+            Query query;
+            query = parser.parse(artigo.getConteudo());
         
-        if(DirectoryReader.indexExists(dirIndice)){
-            reader = DirectoryReader.open(dirIndice);
-        } else{
-            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, "Não foi localizado nenhum índice na pasta: " + caminhoIndice);
-            throw new IndexNotFoundException("Não foi localizado o índice do sistema!");
-        }
-        
-        IndexSearcher searcher = new IndexSearcher(reader);
-        Analyzer analyzer = new BrazilianAnalyzer();
-        QueryParser parser = new QueryParser(Const.CAMPO_TITULO, analyzer);
-        Query query;
-        
-        try {
-            query = parser.parse(artigo.getTitulo());
+            Date inicioBusca = new Date();
+            TopDocs topDocs = searcher.search(query, 50);
+            Date fimBusca = new Date();
+            tempoBusca = fimBusca.getTime() - inicioBusca.getTime();
+
+            numTotalHits = topDocs.totalHits;
+            ScoreDoc[] hits = topDocs.scoreDocs;
+
+            List<Artigo> artigos = getArtigos(searcher, hits);
+            reader.close();
+            
+            return artigos;
+            
         } catch (ParseException ex) {
             Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
             throw new ParseException("Erro ao converter termos em uma Query.");
+        } catch (IOException ex) {
+            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException("Erro ao tentar acessar o diretório onde está o índice do sistema.");
         }
-        
-        Date inicioBusca = new Date();
-        TopDocs topDocs = searcher.search(query, 50);
-        Date fimBusca = new Date();
-        tempoBusca = fimBusca.getTime() - inicioBusca.getTime();
-        
-        numTotalHits = topDocs.totalHits;
-        ScoreDoc[] hits = topDocs.scoreDocs;
-        
-        List<Artigo> artigos = getArtigos(searcher, hits);
-        reader.close();
-        
-        return artigos;
     }
     
     private List<Artigo> getArtigos(IndexSearcher searcher, ScoreDoc[] hits) throws IOException{
@@ -121,7 +124,7 @@ public class Buscador {
             }
         } catch (IOException ex) {
             Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IOException("Erro ao ler o índice.");
+            throw new IOException("Erro ao ler informações, no índice, sobre os artigos encontrados.");
         }
         return artigos;
     }

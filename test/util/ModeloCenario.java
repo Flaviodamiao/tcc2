@@ -46,7 +46,7 @@ public class ModeloCenario {
     }
     
     public static Artigo getUmArtigo() throws IOException{
-        Artigo artigo = criarArtigoDois();
+        Artigo artigo = criarArtigoUm();
         
         //Este valor deve ser atribuído pois, como o arquivo possui um único artigo,
         //ao ser extraído, o sistema encontra seu início na primeira página
