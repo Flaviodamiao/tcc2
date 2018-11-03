@@ -19,12 +19,17 @@ package extracao;
 import util.Const;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import mvc.bean.Artigo;
 import util.ModeloCenario;
 import mvc.bean.Edicao;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
@@ -51,6 +56,7 @@ public class ExtratorPDFTest {
         Edicao edicao = artigo.getEdicao();
         InputStream arquivo = Files.newInputStream(Paths.get(artigoEmUmArquivo));
         Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigos = extrator.processarEdicao();
         
         assertTrue(artigos.get(0).equals(artigo) & artigos.size() == 1);
@@ -66,13 +72,36 @@ public class ExtratorPDFTest {
         
         edicaoEmUmArquivo = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
         
-        List<Artigo> artigosEsp = ModeloCenario.getTresArtigos();
+        List<Artigo> artigosEsp = ModeloCenario.getTresArtigosIGAPO_V10_N1();
         InputStream arquivo = Files.newInputStream(Paths.get(edicaoEmUmArquivo));
         Extrator extrator = Extrator.getExtrator(arquivo, "pdf", artigosEsp.get(0).getEdicao());
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         
         assertTrue(artigosRes.get(0).equals(artigosEsp.get(0)) 
                 & artigosRes.get(1).equals(artigosEsp.get(1))
                 & artigosRes.get(2).equals(artigosEsp.get(2)));
+    }
+    
+    @After
+    public void after() throws IOException{
+        limparRepositorio();
+    }
+    
+    //Garante que nenhum teste dependa desta classe de testes
+    private void limparRepositorio() throws IOException{
+        Files.walkFileTree(Paths.get(Const.DIRETORIO_REPOSITORIO_TESTES), new SimpleFileVisitor<Path>(){
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+            
+            @Override
+            public FileVisitResult postVisitDirectory(Path directory, IOException iOException) throws IOException{
+                Files.delete(directory);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

@@ -49,7 +49,7 @@ public abstract class Extrator{
         artigos = new ArrayList<>();
         caminhoRelEdicao = "\\" + edicao.getRevista() 
                 + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();
-        criaCaminhoGravacao();
+        
     }
     
     /**

@@ -44,15 +44,16 @@ import util.ModeloCenario;
  * @author Flávio Almeida
  */
 public class BuscadorTest {
-    private Edicao edicao;
+    private Buscador buscador;
     
     public BuscadorTest() {
+        buscador = new Buscador();
+        buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
+        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
     }
     
     @Before
     public void before() throws IOException{
-        edicao = ModeloCenario.getEdicao();
-        criarIndice();
     }
 
     /**
@@ -63,62 +64,97 @@ public class BuscadorTest {
     @Test
     public void DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste() throws IOException, ParseException {
         Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoEspecificoEmBuscaSemFiltrosTeste()");
-        Artigo artigoEsperado = ModeloCenario.criarArtigoUm();
+        criarIndice3ArtigosIGAPOv10n1();
+        Artigo artigoEsperado = ModeloCenario.criarArtigoIGAPOV10_N1_Prim();
         
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
         Artigo artigoBusca = new Artigo();
-        artigoBusca.setTitulo("pescado");
-        Buscador buscador = new Buscador();
-        buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
-        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
-        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        artigoBusca.setConteudo("pescado");
         
-        //System.out.println("\n\n---------------------------\n\n artigosResultado.size(): " + (artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0))));
-        //artigoEsperado.imprimir();
-        //artigosResultado.imprimir();
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }
     
     /**
      * Verifica se cálculo da similaridade está próximo do esperado
-     * A palavra pesquisada aparece em quantidades diferentes todos os artigos-teste
+     * A palavra pesquisada aparece em quantidades diferentes em todos os artigos-teste
      * @throws java.io.IOException
      * @throws org.apache.lucene.queryparser.classic.ParseException
      */
     @Test
     public void DeveRetornarArtigoNaPosicaoEsperadaTeste() throws IOException, ParseException{
         Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: DeveRetornarArtigoNaPosicaoEsperadaTeste");
-        Artigo artigoEsperado = ModeloCenario.criarArtigoDois();
+        criarIndice3ArtigosIGAPOv10n1();
+        Artigo artigoEsperado = ModeloCenario.criarArtigoIGAPOV10_N1_Seg();
         
         //O conteúdo do artigo é INDEXED, mas não STORED, então, o artigo que será recuperado terá conteúdo vazio
         artigoEsperado.setConteudo("");
         
         Artigo artigoBusca = new Artigo();
         artigoBusca.setConteudo("estudo");
-        Buscador buscador = new Buscador();
-        buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
-        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
+        
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
         
-        System.out.println("\n\n ---------- \n ----------- \n\nLista: ");
-        System.out.println("Size: " + artigosResultado.size());
-        //artigosResultado.get(0).imprimir();
-        System.out.println("\n\n ---------- \n ----------- \n\n");
         assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(0)));
     }
     
-    @Test
-    public void deveFiltrarBuscaPorTitulo(){
+    //@Test
+    public void deveFiltrarBuscaPorTituloEConteudoTeste() throws ParseException, IOException{
+        Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: deveFiltrarBuscaPorTituloEConteudoTeste");
+        criarIndiceIGAPO_v9n2();
+        criarIndiceIGAPO_v10n1();
+        String tituloEsperado01 = "CARACTERIZAÇÃO DA PISCICULTURA NO MUNICÍPIO DE TABATINGA-AM";
+        String tituloEsperado02 = "CARACTERÍSTICAS DA PISCICULTURA EM PRESIDENTE FIGUEIREDO, AMAZONAS";
         
+        Artigo artigoBusca = new Artigo();
+        artigoBusca.setTitulo("piscicultura");
+        artigoBusca.setConteudo("peixe");
+        
+        /*
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        
+        String tituloRes01 = artigosResultado.get(0).getTitulo();
+        String tituloRes02 = artigosResultado.get(1).getTitulo();
+        
+        assertTrue(artigosResultado.size() == 2 
+                & tituloEsperado01.equalsIgnoreCase(tituloRes01) 
+                & tituloEsperado02.equalsIgnoreCase(tituloRes02));
+        //*/
+        
+        assertTrue(true);
     }
     
-    private void criarIndice() throws IOException {
+    private void criarIndice3ArtigosIGAPOv10n1() throws IOException {
         String arquivoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
         InputStream arquivo = Files.newInputStream(Paths.get(arquivoEdicao));
-        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
+        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", ModeloCenario.getEdicaoIGAPO_v10_n1());
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
+        List<Artigo> artigosRes = extrator.processarEdicao();
+        
+        Indexador indexador = new Indexador(artigosRes);
+        indexador.setDirIndice(Const.DIRETORIO_INDICE_TESTES);
+        indexador.indexa();
+    }
+    
+    private void criarIndiceIGAPO_v9n2() throws IOException {
+        String caminhoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol9_n2_2015_completa.pdf";
+        InputStream streamArquivo = Files.newInputStream(Paths.get(caminhoEdicao));
+        Extrator extrator = Extrator.getExtrator(streamArquivo, "pdf", ModeloCenario.getEdicaoIGAPO_v9_n2());
+        extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
+        List<Artigo> artigosRes = extrator.processarEdicao();
+        
+        Indexador indexador = new Indexador(artigosRes);
+        indexador.setDirIndice(Const.DIRETORIO_INDICE_TESTES);
+        indexador.indexa();
+    }
+    
+    private void criarIndiceIGAPO_v10n1() throws IOException {
+        String caminhoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_completa.pdf";
+        InputStream streamArquivo = Files.newInputStream(Paths.get(caminhoEdicao));
+        Extrator extrator = Extrator.getExtrator(streamArquivo, "pdf", ModeloCenario.getEdicaoIGAPO_v10_n1());
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         
@@ -128,12 +164,34 @@ public class BuscadorTest {
     }
     
     @After
-    public void after() throws IOException{
-        //O índice precisa ser excluído ao final do teste, senão o próximo teste pode falhar
+    public void after() throws IOException {
+        limparIndice();
+        limparRepositorio();
+    }
+    
+    //O índice precisa ser excluído ao final de cada teste, senão o próximo teste pode falhar
+    private void limparIndice() throws IOException{
         Files.walkFileTree(Paths.get(Const.DIRETORIO_INDICE_TESTES), new SimpleFileVisitor<Path>(){
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
                 Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+    
+    //Garante que nenhum teste dependa desta classe de testes
+    private void limparRepositorio() throws IOException{
+        Files.walkFileTree(Paths.get(Const.DIRETORIO_REPOSITORIO_TESTES), new SimpleFileVisitor<Path>(){
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+            
+            @Override
+            public FileVisitResult postVisitDirectory(Path directory, IOException iOException) throws IOException{
+                Files.delete(directory);
                 return FileVisitResult.CONTINUE;
             }
         });

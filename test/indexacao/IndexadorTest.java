@@ -53,7 +53,7 @@ public class IndexadorTest {
     
     @Before
     public void before(){
-        edicao = ModeloCenario.getEdicao();
+        edicao = ModeloCenario.getEdicaoIGAPO_v10_n1();
     }
 
     @Test
@@ -79,11 +79,33 @@ public class IndexadorTest {
     
     @After
     public void after() throws IOException{
-        //O índice precisa ser excluído ao final do teste, senão o próximo teste falhará
+        limparIndice();
+        limparRepositorio();
+    }
+    
+    //O índice precisa ser excluído ao final de cada teste, senão o próximo teste pode falhar
+    private void limparIndice() throws IOException{
         Files.walkFileTree(Paths.get(Const.DIRETORIO_INDICE_TESTES), new SimpleFileVisitor<Path>(){
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
                 Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    //Garante que nenhum teste dependa desta classe de testes
+    private void limparRepositorio() throws IOException{
+        Files.walkFileTree(Paths.get(Const.DIRETORIO_REPOSITORIO_TESTES), new SimpleFileVisitor<Path>(){
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException{
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+            
+            @Override
+            public FileVisitResult postVisitDirectory(Path directory, IOException iOException) throws IOException{
+                Files.delete(directory);
                 return FileVisitResult.CONTINUE;
             }
         });

@@ -33,7 +33,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
  * Classe utilizada para criar artigos para os cenários de testes
  */
 public class ModeloCenario {
-    private static Edicao edicao = criarEdicao();
+    private static Edicao edicao = criarEdicaoIGAPO_v10_n1();
     private static String repositorio = "\\" + 
             edicao.getRevista() + "\\vol." + edicao.getVolume() + "\\N-" + edicao.getNumero();;
     
@@ -41,12 +41,16 @@ public class ModeloCenario {
         
     }
     
-    public static Edicao getEdicao(){
+    public static Edicao getEdicaoIGAPO_v10_n1(){
         return edicao;
     }
     
+    public static Edicao getEdicaoIGAPO_v9_n2(){
+        return criarEdicaoIGAPO_v9_n2();
+    }
+    
     public static Artigo getUmArtigo() throws IOException{
-        Artigo artigo = criarArtigoUm();
+        Artigo artigo = criarArtigoIGAPOV10_N1_Prim();
         
         //Este valor deve ser atribuído pois, como o arquivo possui um único artigo,
         //ao ser extraído, o sistema encontra seu início na primeira página
@@ -55,17 +59,17 @@ public class ModeloCenario {
         return artigo;
     }
     
-    public static List<Artigo> getTresArtigos() throws IOException{
+    public static List<Artigo> getTresArtigosIGAPO_V10_N1() throws IOException{
         List<Artigo> artigos = new ArrayList<>();
-        artigos.add(criarArtigoUm());
-        artigos.add(criarArtigoDois());
-        artigos.add(criarArtigoTres());
+        artigos.add(criarArtigoIGAPOV10_N1_Prim());
+        artigos.add(criarArtigoIGAPOV10_N1_Seg());
+        artigos.add(criarArtigoIGAPOV10_N1_Terc());
         
         return artigos;
     }
     
-    private static Edicao criarEdicao(){
-        edicao = new Edicao();
+    private static Edicao criarEdicaoIGAPO_v10_n1(){
+        Edicao edicao = new Edicao();
         edicao.setRevista(Revista.IGAPO);
         edicao.setAno(2016);
         edicao.setVolume(10);
@@ -74,7 +78,17 @@ public class ModeloCenario {
         return edicao;
     }
     
-    public static Artigo criarArtigoUm() throws IOException{
+    private static Edicao criarEdicaoIGAPO_v9_n2(){
+        Edicao edicao = new Edicao();
+        edicao.setRevista(Revista.IGAPO);
+        edicao.setAno(2015);
+        edicao.setVolume(9);
+        edicao.setNumero(2);
+        
+        return edicao;
+    }
+    
+    public static Artigo criarArtigoIGAPOV10_N1_Prim() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         
@@ -93,7 +107,7 @@ public class ModeloCenario {
         return artigo; 
     }
     
-    public static Artigo criarArtigoDois() throws IOException{
+    public static Artigo criarArtigoIGAPOV10_N1_Seg() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         
@@ -115,7 +129,7 @@ public class ModeloCenario {
         return artigo;
     }
     
-    public static Artigo criarArtigoTres() throws IOException{
+    public static Artigo criarArtigoIGAPOV10_N1_Terc() throws IOException{
         Artigo artigo = new Artigo();
         List<String> autores = new ArrayList<>();
         

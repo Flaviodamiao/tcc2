@@ -69,6 +69,7 @@ class ExtratorPDF extends Extrator{
     
     @Override
     public List<Artigo> processarEdicao() throws IOException{
+        criaCaminhoGravacao();
         String titulo = "";
         List<String> autores = null;
         int ultimaPagina = document.getNumberOfPages();
