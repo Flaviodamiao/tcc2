@@ -101,7 +101,7 @@ public class BuscadorTest {
         assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(0)));
     }
     
-    //@Test
+    @Test
     public void deveFiltrarBuscaPorTituloEConteudoTeste() throws ParseException, IOException{
         Logger.getLogger(Buscador.class.getName()).log(Level.INFO, "Teste: deveFiltrarBuscaPorTituloEConteudoTeste");
         criarIndiceIGAPO_v9n2();
@@ -113,8 +113,13 @@ public class BuscadorTest {
         artigoBusca.setTitulo("piscicultura");
         artigoBusca.setConteudo("peixe");
         
-        /*
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        
+        System.out.println("\n\n----------------------------------Resultado da busca\n");
+        for(Artigo a: artigosResultado){
+            System.out.println(a.getTitulo());
+        }
+        System.out.println("\n----------------------------------\n\n");
         
         String tituloRes01 = artigosResultado.get(0).getTitulo();
         String tituloRes02 = artigosResultado.get(1).getTitulo();
@@ -122,15 +127,14 @@ public class BuscadorTest {
         assertTrue(artigosResultado.size() == 2 
                 & tituloEsperado01.equalsIgnoreCase(tituloRes01) 
                 & tituloEsperado02.equalsIgnoreCase(tituloRes02));
-        //*/
         
         assertTrue(true);
     }
     
     private void criarIndice3ArtigosIGAPOv10n1() throws IOException {
-        String arquivoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
-        InputStream arquivo = Files.newInputStream(Paths.get(arquivoEdicao));
-        Extrator extrator = Extrator.getExtrator(arquivo, "pdf", ModeloCenario.getEdicaoIGAPO_v10_n1());
+        String caminhoEdicao = Const.DIRETORIO_TESTES + "\\igapo_vol10_n1_2016_com3artigos.pdf";
+        InputStream streamArquivo = Files.newInputStream(Paths.get(caminhoEdicao));
+        Extrator extrator = Extrator.getExtrator(streamArquivo, "pdf", ModeloCenario.getEdicaoIGAPO_v10_n1());
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigosRes = extrator.processarEdicao();
         

@@ -42,7 +42,7 @@ public class ModeloCenario {
     }
     
     public static Edicao getEdicaoIGAPO_v10_n1(){
-        return edicao;
+        return criarEdicaoIGAPO_v10_n1();
     }
     
     public static Edicao getEdicaoIGAPO_v9_n2(){

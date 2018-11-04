@@ -36,6 +36,8 @@ import org.apache.lucene.index.IndexNotFoundException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -71,9 +73,18 @@ public class Buscador {
 
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new BrazilianAnalyzer();
+            
+            QueryParser conteudoParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
+            Query queryTitulo = conteudoParser.parse(artigo.getTitulo());
+            
             QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
-            Query query;
-            query = parser.parse(artigo.getConteudo());
+            Query queryConteudo = parser.parse(artigo.getConteudo());
+            
+            BooleanQuery.Builder builderQuery = new BooleanQuery.Builder();
+            builderQuery.add(queryTitulo, BooleanClause.Occur.SHOULD);
+            builderQuery.add(queryConteudo, BooleanClause.Occur.SHOULD);
+            
+            BooleanQuery query = builderQuery.build();
         
             Date inicioBusca = new Date();
             TopDocs topDocs = searcher.search(query, 50);
