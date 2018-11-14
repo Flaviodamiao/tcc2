@@ -124,11 +124,9 @@ public class BuscadorTest {
         String tituloRes01 = artigosResultado.get(0).getTitulo();
         String tituloRes02 = artigosResultado.get(1).getTitulo();
         
-        assertTrue(artigosResultado.size() == 2 
-                & tituloEsperado01.equalsIgnoreCase(tituloRes01) 
-                & tituloEsperado02.equalsIgnoreCase(tituloRes02));
-        
-        assertTrue(true);
+        assertTrue(artigosResultado.size() == 4 
+                & tituloEsperado01.trim().equalsIgnoreCase(tituloRes01.trim()) 
+                & tituloEsperado02.trim().equalsIgnoreCase(tituloRes02.trim()));
     }
     
     private void criarIndice3ArtigosIGAPOv10n1() throws IOException {

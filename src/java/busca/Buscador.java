@@ -74,11 +74,11 @@ public class Buscador {
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new BrazilianAnalyzer();
             
-            QueryParser conteudoParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
-            Query queryTitulo = conteudoParser.parse(artigo.getTitulo());
+            QueryParser tituloParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
+            Query queryTitulo = tituloParser.parse(artigo.getTitulo());
             
-            QueryParser parser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
-            Query queryConteudo = parser.parse(artigo.getConteudo());
+            QueryParser conteudoParser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
+            Query queryConteudo = conteudoParser.parse(artigo.getConteudo());
             
             BooleanQuery.Builder builderQuery = new BooleanQuery.Builder();
             builderQuery.add(queryTitulo, BooleanClause.Occur.SHOULD);
