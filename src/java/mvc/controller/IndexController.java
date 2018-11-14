@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +68,7 @@ public class IndexController {
                 System.out.println("_______________---------- -- - - -" + art.getCaminho());
             }//*/
             
-            model.addAttribute("artigos", buscador.buscar(artigo));
+            model.addAttribute("artigos", buscador.buscar(artigo, new HashMap<>()));
             return "resultadoBusca";
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);

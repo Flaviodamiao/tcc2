@@ -138,14 +138,8 @@ public class Indexador {
         fieldType.setIndexOptions(IndexOptions.NONE);
         fieldType.setStored(true);
         
-        String autores = "";
-        
-        for(String s: artigo.getAutores()){
-            autores += s + " - ";
-        }
-        
         document.add(new Field(Const.CAMPO_TITULO, artigo.getTitulo(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
-        document.add(new Field(Const.CAMPO_AUTORES, autores, TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_AUTORES, artigo.getAutores(), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
         document.add(new Field(Const.CAMPO_CONTEUDO, artigo.getConteudo(), TYPE_CONTEUDO));
         document.add(new Field(Const.CAMPO_CAMINHO, artigo.getCaminho(), TYPE_STORED_ONLY));
         document.add(new Field(Const.CAMPO_NUMERO_EDICAO, Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_ONLY));

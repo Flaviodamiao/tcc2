@@ -71,7 +71,7 @@ class ExtratorPDF extends Extrator{
     public List<Artigo> processarEdicao() throws IOException{
         criaCaminhoGravacao();
         String titulo = "";
-        List<String> autores = null;
+        String autores = "";
         int ultimaPagina = document.getNumberOfPages();
         
         while(paginaAtual < ultimaPagina  && !finalizaAnalise){

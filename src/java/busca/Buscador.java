@@ -20,7 +20,6 @@ package busca;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,6 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
@@ -60,7 +58,7 @@ public class Buscador {
     public Buscador(){
     }
     
-    public List<Artigo> buscar(Artigo artigo, Map<String, String> filtros) throws ParseException, IOException {
+    public List<Artigo> buscar(Artigo artigo, Map<String, BooleanClause.Occur> filtros) throws ParseException, IOException {
         try{
             Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
             IndexReader reader;
@@ -73,7 +71,13 @@ public class Buscador {
             }
 
             IndexSearcher searcher = new IndexSearcher(reader);
-            BooleanQuery query = construirQuery(artigo, filtros);
+            BooleanQuery query;
+            
+            if(artigo != null & !filtros.isEmpty()){
+                query = construirQuery(artigo, filtros);
+            }else{
+                throw new IllegalArgumentException("Ocorreu ao processar sua solicitação!\nPedimos desculpas pelo inconveniente.");
+            }
             
             Date inicioBusca = new Date();
             TopDocs topDocs = searcher.search(query, 50);
@@ -93,23 +97,34 @@ public class Buscador {
         }
     }
     
-    private BooleanQuery construirQuery(Artigo artigo, Map<String, String> filtros) throws ParseException{
+    private BooleanQuery construirQuery(Artigo artigo, Map<String, BooleanClause.Occur> filtros) throws ParseException{
         try {
             Analyzer analyzer = new BrazilianAnalyzer();
-            
-            for(filtros.forEach(action: a);){
-                
-            }
-            
-            QueryParser tituloParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
-            Query queryTitulo = tituloParser.parse(artigo.getTitulo());
-            
-            QueryParser conteudoParser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
-            Query queryConteudo = conteudoParser.parse(artigo.getConteudo());
-            
             BooleanQuery.Builder builderQuery = new BooleanQuery.Builder();
-            builderQuery.add(queryTitulo, BooleanClause.Occur.SHOULD);
-            builderQuery.add(queryConteudo, BooleanClause.Occur.SHOULD);
+            
+            for(Map.Entry<String, BooleanClause.Occur> filtro: filtros.entrySet()){
+                QueryParser parser = new QueryParser(filtro.getKey(), analyzer);
+                String termos = "";
+                
+                switch(filtro.getKey()){
+                    case Const.CAMPO_TITULO: termos = artigo.getTitulo();
+                                             break;
+                    case Const.CAMPO_CONTEUDO: termos = artigo.getConteudo();
+                                             break;
+                    case Const.CAMPO_AUTORES: termos = artigo.getAutores();
+                                             break;
+                    case Const.CAMPO_REVISTA: termos = artigo.getEdicao().getRevista().toString();
+                                             break;
+                    case Const.CAMPO_ANO_EDICAO: termos = Integer.toString(artigo.getEdicao().getAno());
+                                             break;
+                    case Const.CAMPO_VOLUME_EDICAO: termos = "" + artigo.getEdicao().getVolume();
+                                             break;
+                    case Const.CAMPO_NUMERO_EDICAO: termos = Integer.toString(artigo.getEdicao().getNumero());
+                                             break;
+                }
+                
+                builderQuery.add(parser.parse(termos), filtro.getValue());
+            }
             
             return builderQuery.build();
         } catch (ParseException ex) {
@@ -119,7 +134,7 @@ public class Buscador {
     }
     
     private List<Artigo> getArtigos(IndexSearcher searcher, ScoreDoc[] hits) throws IOException{
-        List<Artigo> artigos = new ArrayList();
+        List<Artigo> artigos = new ArrayList<>();
         
         try {
             for (ScoreDoc hit : hits) {
@@ -137,7 +152,7 @@ public class Buscador {
                 edicao.setNumero(Integer.parseInt(doc.get(Const.CAMPO_NUMERO_EDICAO)));
                 
                 artigo.setTitulo(doc.get(Const.CAMPO_TITULO));
-                artigo.setAutores(Arrays.asList(doc.get(Const.CAMPO_AUTORES).split(" - ")));
+                artigo.setAutores(doc.get(Const.CAMPO_AUTORES));
                 artigo.setCaminho(doc.get(Const.CAMPO_CAMINHO));
                 artigo.setEdicao(edicao);
                 

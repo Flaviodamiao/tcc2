@@ -71,7 +71,7 @@ public abstract class Extrator{
     }
     
     //Adiciona cada artigo encontrado à lista de artigos que será retornada
-    protected final void adicionarArtigo(String titulo, List<String> autores, String conteudo, String caminho) throws IOException{
+    protected final void adicionarArtigo(String titulo, String autores, String conteudo, String caminho) throws IOException{
         Artigo artigo = new Artigo();
         artigo.setTitulo(titulo);
         artigo.setAutores(autores);

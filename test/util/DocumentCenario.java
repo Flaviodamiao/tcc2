@@ -41,17 +41,12 @@ public class DocumentCenario {
         Artigo artigo = ModeloCenario.getUmArtigo();
         Document documento = new Document();
         FieldType fieldType = new FieldType();
-        String autores = "";
-        
-        for(String s: artigo.getAutores()){
-            autores += s + " - ";
-        }
         
         fieldType.setIndexOptions(IndexOptions.NONE);
         fieldType.setStored(true);
         
         documento.add(new Field("titulo", artigo.getTitulo(), fieldType));
-        documento.add(new Field("autores", autores, fieldType));
+        documento.add(new Field("autores", artigo.getAutores(), fieldType));
         documento.add(new Field("caminho", artigo.getCaminho(), fieldType));
         documento.add(new Field("numeroEdicao", Integer.toString(artigo.getEdicao().getNumero()), fieldType));
         documento.add(new Field("volumeEdicao", Integer.toString(artigo.getEdicao().getVolume()), fieldType));

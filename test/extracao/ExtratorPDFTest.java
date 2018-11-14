@@ -52,14 +52,17 @@ public class ExtratorPDFTest {
         System.out.println("DeveExtrairUmArtigoTeste");
         
         artigoEmUmArquivo = Const.DIRETORIO_TESTES + "\\artigo_p16-24.pdf";
-        Artigo artigo = ModeloCenario.getUmArtigo();
-        Edicao edicao = artigo.getEdicao();
+        Artigo artigoEsp = ModeloCenario.getUmArtigo();
+        Edicao edicao = artigoEsp.getEdicao();
         InputStream arquivo = Files.newInputStream(Paths.get(artigoEmUmArquivo));
         Extrator extrator = Extrator.getExtrator(arquivo, "pdf", edicao);
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigos = extrator.processarEdicao();
         
-        assertTrue(artigos.get(0).equals(artigo) & artigos.size() == 1);
+        System.out.println(artigoEsp.getAutores());
+        System.out.println(artigos.get(0).getAutores());
+        
+        assertTrue(artigos.get(0).equals(artigoEsp) & artigos.size() == 1);
     }
 
     /**

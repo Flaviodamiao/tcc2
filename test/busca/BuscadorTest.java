@@ -26,12 +26,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
-import mvc.bean.Edicao;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.BooleanClause;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -72,8 +75,10 @@ public class BuscadorTest {
         
         Artigo artigoBusca = new Artigo();
         artigoBusca.setConteudo("pescado");
+        Map<String, BooleanClause.Occur> filtros = new HashMap<>();
+        filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.MUST);
         
-        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca, filtros);
         
         assertTrue(artigosResultado.size() == 1 & artigoEsperado.equals(artigosResultado.get(0)));
     }
@@ -95,8 +100,10 @@ public class BuscadorTest {
         
         Artigo artigoBusca = new Artigo();
         artigoBusca.setConteudo("estudo");
+        Map<String, BooleanClause.Occur> filtros = new HashMap<>();
+        filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.MUST);
         
-        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca, filtros);
         
         assertTrue(artigosResultado.size() == 3 & artigoEsperado.equals(artigosResultado.get(0)));
     }
@@ -112,8 +119,11 @@ public class BuscadorTest {
         Artigo artigoBusca = new Artigo();
         artigoBusca.setTitulo("piscicultura");
         artigoBusca.setConteudo("peixe");
+        Map<String, BooleanClause.Occur> filtros = new HashMap<>();
+        filtros.put(Const.CAMPO_TITULO, BooleanClause.Occur.SHOULD);
+        filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.SHOULD);
         
-        List<Artigo> artigosResultado = buscador.buscar(artigoBusca);
+        List<Artigo> artigosResultado = buscador.buscar(artigoBusca, filtros);
         
         System.out.println("\n\n----------------------------------Resultado da busca\n");
         for(Artigo a: artigosResultado){

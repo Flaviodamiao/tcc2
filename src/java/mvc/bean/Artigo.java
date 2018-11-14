@@ -17,15 +17,13 @@
 
 package mvc.bean;
 
-import java.util.List;
-
 /**
  *
  * @author Flávio Almeida
  */
 public class Artigo {
     private String titulo;
-    private List<String> autores;
+    private String autores;
     
     //No processo busca, o conteudo não é recuperado do índice, somente no próprio arquivo
     private String conteudo = "";
@@ -37,9 +35,9 @@ public class Artigo {
         return  artigo != null
                 & this.titulo.equalsIgnoreCase(artigo.getTitulo())
                 & this.conteudo.equalsIgnoreCase(artigo.getConteudo()) //Útil nos testes de extração e para exibição de trechos em buscas
-                & this.edicao.equals(edicao)
-                & this.autores.containsAll(artigo.autores)
-                & artigo.autores.containsAll(this.autores);
+                & this.edicao.equals(artigo.getEdicao())
+                & this.autores.equals(artigo.getAutores())
+                & artigo.getAutores().equals(this.autores);
     }
     
     public void imprimir(){
@@ -51,11 +49,11 @@ public class Artigo {
         
         System.out.println("Autores:");
         
-        for(String autor: autores){
+        for(String autor: autores.split(" - ")){
             System.out.println("\t" + autor);
         }
         
-        edicao.toString();
+        edicao.imprimir();
     }
 
     public String getTitulo() {
@@ -66,11 +64,11 @@ public class Artigo {
         this.titulo = titulo;
     }
 
-    public List<String> getAutores() {
+    public String getAutores() {
         return autores;
     }
 
-    public void setAutores(List<String> autores) {
+    public void setAutores(String autores) {
         this.autores = autores;
     }
 

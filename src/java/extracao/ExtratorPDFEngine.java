@@ -17,7 +17,6 @@
 package extracao;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import mvc.bean.Revista;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -38,7 +37,7 @@ class ExtratorPDFEngine extends PDFTextStripper{
     private String titulo = "";
     private boolean construindoTitulo = false;
     private boolean coletandoAutores = false;
-    private List<String> autores = new ArrayList<>();
+    private String autores = "";
     private String linhaAutores = "";
     
     //Quando for extrair artigos das demais revistas
@@ -65,7 +64,7 @@ class ExtratorPDFEngine extends PDFTextStripper{
         return titulo;
     }
     
-    protected List<String> getAutores(){
+    protected String getAutores(){
         return autores;
     }
     
@@ -144,11 +143,11 @@ class ExtratorPDFEngine extends PDFTextStripper{
             
             //Caso o artigo possua apenas um autor
             if(indexOfContAutores == -1){
-                autores.add(linhaAutores.substring(0));
+                autores += linhaAutores.substring(0);
             }
             
             while( indexOfContAutores > 0){
-                autores.add(linhaAutores.substring(0, indexOfContAutores));
+                autores += linhaAutores.substring(0, indexOfContAutores);
                 
                 if(indexOfContAutores + 2 >= linhaAutores.length()){
                     break;
@@ -160,6 +159,10 @@ class ExtratorPDFEngine extends PDFTextStripper{
                     }
                     contaAutores++;
                     indexOfContAutores = linhaAutores.indexOf(Integer.toString(contaAutores));
+                    
+                    if(indexOfContAutores > 0){
+                        autores += " - ";
+                    }
                 }
             }
             coletandoAutores = false;

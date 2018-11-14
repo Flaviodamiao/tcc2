@@ -90,13 +90,13 @@ public class ModeloCenario {
     
     public static Artigo criarArtigoIGAPOV10_N1_Prim() throws IOException{
         Artigo artigo = new Artigo();
-        List<String> autores = new ArrayList<>();
+        String autores;
         
-        autores.add("Fabio Junior Ferreira da Silva");
-        autores.add("Paulo Henrique Rocha Aride");
-        autores.add("Suelen Miranda dos Santos");
-        autores.add("Jackson Pantoja-Lima");
-        autores.add("Adriano Teixeira de Oliveira");
+        autores = "Fabio Junior Ferreira da Silva"
+                + " - Paulo Henrique Rocha Aride"
+                + " - Suelen Miranda dos Santos"
+                + " - Jackson Pantoja-Lima"
+                + " - Adriano Teixeira de Oliveira";
         
         artigo.setTitulo("COMPRA DO PESCADO NA FEIRA DE JURUÁ: FATORES QUE INFLUENCIAM NA TOMADA DE DECISÃO");
         artigo.setAutores(autores);
@@ -109,14 +109,14 @@ public class ModeloCenario {
     
     public static Artigo criarArtigoIGAPOV10_N1_Seg() throws IOException{
         Artigo artigo = new Artigo();
-        List<String> autores = new ArrayList<>();
+        String autores;
         
-        autores.add("José Carlos Ramos Monteiro");
-        autores.add("Paulo Henrique Rocha Aride");
-        autores.add("Adriano Teixeira de Oliveira");
-        autores.add("Suelen Miranda dos Santos");
-        autores.add("Jackson Pantoja-Lima");
-        autores.add("Ligia Fonseca Heyer");
+        autores = "José Carlos Ramos Monteiro"
+                + " - Paulo Henrique Rocha Aride"
+                + " - Adriano Teixeira de Oliveira"
+                + " - Suelen Miranda dos Santos"
+                + " - Jackson Pantoja-Lima"
+                + " - Ligia Fonseca Heyer";
         
         artigo.setTitulo("DESCRIÇÃO DA TEMPERATURA E UMIDADE RELATIVA DO AR EM DISTINTAS LOCALIDADES DA "
                 + "CIDADE DE MANAUS COM DIFERENTES GEOMETRIZAÇÕES E ESPACIALIDADES URBANAS NOS BAIRROS DO "
@@ -131,12 +131,12 @@ public class ModeloCenario {
     
     public static Artigo criarArtigoIGAPOV10_N1_Terc() throws IOException{
         Artigo artigo = new Artigo();
-        List<String> autores = new ArrayList<>();
+        String autores;
         
-        autores.add("Rodrigo de Souza Amaral");
-        autores.add("Bárbara Luiza Migueis Nunes");
-        autores.add("Mayara Fonseca Ferreira");
-        autores.add("Jonatas Maciel Claudio");
+        autores = "Rodrigo de Souza Amaral"
+        + " - Bárbara Luiza Migueis Nunes"
+        + " - Mayara Fonseca Ferreira"
+        + " - Jonatas Maciel Claudio";
         
         artigo.setTitulo("AVALIAÇÃO DOS NÍVEIS DE METABÓLITOS FECAIS DE TESTOSTERONA E ESTRADIOL EM SUÍNOS");
         artigo.setAutores(autores);
