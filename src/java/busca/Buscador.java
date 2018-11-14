@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
@@ -59,7 +60,7 @@ public class Buscador {
     public Buscador(){
     }
     
-    public List<Artigo> buscar(Artigo artigo) throws ParseException, IOException {
+    public List<Artigo> buscar(Artigo artigo, Map<String, String> filtros) throws ParseException, IOException {
         try{
             Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
             IndexReader reader;
@@ -72,20 +73,8 @@ public class Buscador {
             }
 
             IndexSearcher searcher = new IndexSearcher(reader);
-            Analyzer analyzer = new BrazilianAnalyzer();
+            BooleanQuery query = construirQuery(artigo, filtros);
             
-            QueryParser tituloParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
-            Query queryTitulo = tituloParser.parse(artigo.getTitulo());
-            
-            QueryParser conteudoParser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
-            Query queryConteudo = conteudoParser.parse(artigo.getConteudo());
-            
-            BooleanQuery.Builder builderQuery = new BooleanQuery.Builder();
-            builderQuery.add(queryTitulo, BooleanClause.Occur.SHOULD);
-            builderQuery.add(queryConteudo, BooleanClause.Occur.SHOULD);
-            
-            BooleanQuery query = builderQuery.build();
-        
             Date inicioBusca = new Date();
             TopDocs topDocs = searcher.search(query, 50);
             Date fimBusca = new Date();
@@ -98,13 +87,34 @@ public class Buscador {
             reader.close();
             
             return artigos;
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ParseException("Erro ao converter termos em uma Query.");
         } catch (IOException ex) {
             Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException("Erro ao tentar acessar o diretório onde está o índice do sistema.");
+        }
+    }
+    
+    private BooleanQuery construirQuery(Artigo artigo, Map<String, String> filtros) throws ParseException{
+        try {
+            Analyzer analyzer = new BrazilianAnalyzer();
+            
+            for(filtros.forEach(action: a);){
+                
+            }
+            
+            QueryParser tituloParser = new QueryParser(Const.CAMPO_TITULO, analyzer);
+            Query queryTitulo = tituloParser.parse(artigo.getTitulo());
+            
+            QueryParser conteudoParser = new QueryParser(Const.CAMPO_CONTEUDO, analyzer);
+            Query queryConteudo = conteudoParser.parse(artigo.getConteudo());
+            
+            BooleanQuery.Builder builderQuery = new BooleanQuery.Builder();
+            builderQuery.add(queryTitulo, BooleanClause.Occur.SHOULD);
+            builderQuery.add(queryConteudo, BooleanClause.Occur.SHOULD);
+            
+            return builderQuery.build();
+        } catch (ParseException ex) {
+            Logger.getLogger(Buscador.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ParseException("Erro ao converter termos em uma Query.");
         }
     }
     
