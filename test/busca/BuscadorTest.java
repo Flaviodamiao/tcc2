@@ -27,12 +27,12 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mvc.bean.Artigo;
+import mvc.bean.Edicao;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.BooleanClause;
 import org.junit.After;
@@ -117,12 +117,16 @@ public class BuscadorTest {
         String tituloEsperado02 = "CARACTERÍSTICAS DA PISCICULTURA EM PRESIDENTE FIGUEIREDO, AMAZONAS";
         
         Artigo artigoBusca = new Artigo();
-        artigoBusca.setTitulo("piscicultura");
-        artigoBusca.setConteudo("peixe");
+        //artigoBusca.setEdicao(new Edicao());
+        artigoBusca.setAutores("heitor");
+        //artigoBusca.getEdicao().setVolume(9);
+        //artigoBusca.setTitulo("piscicultura");
+        //artigoBusca.setConteudo("peixe");
         Map<String, BooleanClause.Occur> filtros = new HashMap<>();
-        filtros.put(Const.CAMPO_TITULO, BooleanClause.Occur.SHOULD);
-        filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.SHOULD);
-        
+        //filtros.put(Const.CAMPO_TITULO, BooleanClause.Occur.SHOULD);
+        //filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.SHOULD);
+        filtros.put(Const.CAMPO_AUTORES, BooleanClause.Occur.MUST);
+        //filtros.put(Const.CAMPO_VOLUME_EDICAO, BooleanClause.Occur.MUST);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca, filtros);
         
         System.out.println("\n\n----------------------------------Resultado da busca\n");

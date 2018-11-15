@@ -79,6 +79,8 @@ public class Indexador {
         TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED.setTokenized(false);
         TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED.setStored(true);
         TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED.freeze();
+        
+        
     }
     
     /**
@@ -134,18 +136,15 @@ public class Indexador {
     
     private Document getDocument(Artigo artigo){
         Document document = new Document();
-        FieldType fieldType = new FieldType();
-        fieldType.setIndexOptions(IndexOptions.NONE);
-        fieldType.setStored(true);
         
         document.add(new Field(Const.CAMPO_TITULO, artigo.getTitulo(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
-        document.add(new Field(Const.CAMPO_AUTORES, artigo.getAutores(), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_AUTORES, artigo.getAutores(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
         document.add(new Field(Const.CAMPO_CONTEUDO, artigo.getConteudo(), TYPE_CONTEUDO));
         document.add(new Field(Const.CAMPO_CAMINHO, artigo.getCaminho(), TYPE_STORED_ONLY));
-        document.add(new Field(Const.CAMPO_NUMERO_EDICAO, Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_ONLY));
-        document.add(new Field(Const.CAMPO_VOLUME_EDICAO, Integer.toString(artigo.getEdicao().getVolume()), TYPE_STORED_ONLY));
-        document.add(new Field(Const.CAMPO_ANO_EDICAO, Integer.toString(artigo.getEdicao().getAno()), TYPE_STORED_ONLY));
-        document.add(new Field(Const.CAMPO_REVISTA, artigo.getEdicao().getRevista().toString(), TYPE_STORED_ONLY));
+        document.add(new Field(Const.CAMPO_NUMERO_EDICAO, Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_VOLUME_EDICAO, Integer.toString(artigo.getEdicao().getVolume()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_ANO_EDICAO, Integer.toString(artigo.getEdicao().getAno()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_REVISTA, artigo.getEdicao().getRevista().toString(), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
         
         return document;
     }
