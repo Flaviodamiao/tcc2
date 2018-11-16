@@ -41,9 +41,11 @@
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <table>
-                    <th>
-                        <a href="recuperarArtigo?caminho=${artigos.get(0).getCaminho()}" target="_self">${artigos.get(0).getTitulo()}</a>
-                    </th>
+                    <c:forEach var="artigo" items="${artigos}">
+                        <tr><td>
+                            <a href="recuperarArtigo?caminho=${artigo.getCaminho()}" target="_self">${artigo.getTitulo()}</a>
+                        </td></tr>
+                    </c:forEach>
                 </table>
             </div>
                 

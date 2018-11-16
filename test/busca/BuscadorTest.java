@@ -117,23 +117,12 @@ public class BuscadorTest {
         String tituloEsperado02 = "CARACTERÍSTICAS DA PISCICULTURA EM PRESIDENTE FIGUEIREDO, AMAZONAS";
         
         Artigo artigoBusca = new Artigo();
-        //artigoBusca.setEdicao(new Edicao());
-        artigoBusca.setAutores("heitor");
-        //artigoBusca.getEdicao().setVolume(9);
-        //artigoBusca.setTitulo("piscicultura");
-        //artigoBusca.setConteudo("peixe");
+        artigoBusca.setTitulo("piscicultura");
+        artigoBusca.setConteudo("peixe");
         Map<String, BooleanClause.Occur> filtros = new HashMap<>();
-        //filtros.put(Const.CAMPO_TITULO, BooleanClause.Occur.SHOULD);
-        //filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.SHOULD);
-        filtros.put(Const.CAMPO_AUTORES, BooleanClause.Occur.MUST);
-        //filtros.put(Const.CAMPO_VOLUME_EDICAO, BooleanClause.Occur.MUST);
+        filtros.put(Const.CAMPO_TITULO, BooleanClause.Occur.SHOULD);
+        filtros.put(Const.CAMPO_CONTEUDO, BooleanClause.Occur.SHOULD);
         List<Artigo> artigosResultado = buscador.buscar(artigoBusca, filtros);
-        
-        System.out.println("\n\n----------------------------------Resultado da busca\n");
-        for(Artigo a: artigosResultado){
-            System.out.println(a.getTitulo());
-        }
-        System.out.println("\n----------------------------------\n\n");
         
         String tituloRes01 = artigosResultado.get(0).getTitulo();
         String tituloRes02 = artigosResultado.get(1).getTitulo();

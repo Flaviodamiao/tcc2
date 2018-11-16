@@ -41,9 +41,70 @@
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
+                    <h4>Digite os termos de sua pesquisa nos campos de busca desejados e indique se o termo é obrigatório ou não</h4>
                     <div class="form-group">
-                        <label for="conteudo">Pesquisar no texto completo dos documentos</label>
+                        <label for="conteudo">Texto completo</label>
+                        <select name="filtroConteudo">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
                         <input id="conteudo" name="conteudo" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Título</label>
+                        <select name="filtroTitulo">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="titulo" name="titulo" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="autores">Autor</label>
+                        <select name="filtroAutores">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="autor" name="autores" type="text">
+                    </div>
+                    <h4>Edicão</h4>
+                    <div class="form-group">
+                        <label for="revista">Revista</label>
+                        <select name="filtroRevista">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="revista" name="revista" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="ano">Ano</label>
+                        <select name="filtroAno">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="ano" name="ano" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="volume">Volume</label>
+                        <select name="filtroVolume">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="volume" name="volume" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero">Número</label>
+                        <select name="filtroNumero">
+                            <option value="MUST">E</option>
+                            <option value="SHOULD">OU</option>
+                            <option value="MUST_NOT">NÃO</option>
+                        </select>
+                        <input id="numero" name="numero" type="text">
                     </div>
                     <div class="form-roup">
                         <button id="btnPesquisar" type="submit">Pesquisar</button>

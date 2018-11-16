@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -40,11 +41,23 @@
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
-                <table>
-                    <th>
-                        <a href="recuperarArtigo?caminho=${artigos.get(0).getCaminho()}" target="_self">${artigos.get(0).getTitulo()}</a>
-                    </th>
-                </table>
+                <form id="formPesquisa" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
+                    <table>
+                        <c:forEach var="artigo" items="${artigos}">
+                            <tr><td>
+                                <input type="text" id="titulo" name="titulo" value="${artigo.getTitulo()}" disabled>
+                                <br>
+                                Autores:
+                                <c:forEach var="autor" items="${fn:split(artigo.getAutores(), '-')}">
+                                    <input type="text" id="autor" name="autor" value="${autor}" disabled><br>
+                                </c:forEach>
+                            </td></tr>
+                        </c:forEach>
+                    </table>
+                    <div class="form-roup">
+                        <button id="btnPesquisar" type="submit">Confimar e Indexar</button>
+                    </div>
+                </form>
             </div>
                 
         <!--/div>

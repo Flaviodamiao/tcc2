@@ -129,8 +129,7 @@ public class Indexador {
             
             return artIndexPreviamente;
         } else{
-            mensagem = "Não foi encintrado nenhum artigo para ser indexado.";
-            return null;
+            throw new IllegalStateException("Não foi encintrado nenhum artigo para ser indexado.");
         }
     }
     
