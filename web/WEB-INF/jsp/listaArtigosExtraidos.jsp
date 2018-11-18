@@ -43,15 +43,20 @@
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
                     <table>
+                        <c:set var="contTitulo" value="1"/>
                         <c:forEach var="artigo" items="${artigos}">
-                            <tr><td>
-                                <input type="text" id="titulo" name="titulo" value="${artigo.getTitulo()}" disabled>
-                                <br>
-                                Autores:
-                                <c:forEach var="autor" items="${fn:split(artigo.getAutores(), '-')}">
-                                    <input type="text" id="autor" name="autor" value="${autor}" disabled><br>
-                                </c:forEach>
-                            </td></tr>
+                            <tr class="linhaArtigo">
+                                <td>
+                                    <input type="text" id="titulo}" name="titulo" value="${artigo.getTitulo()}">
+                                </td>
+                                <td>
+                                    Autores: <br>
+                                    <c:forEach var="autor" items="${fn:split(artigo.getAutores(), '-')}">
+                                        <input type="text" id="autor" name="autor" value="${autor}" ><br>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                            <c:set var="contTitulo" value="${contTitulo + 1}"/>
                         </c:forEach>
                     </table>
                     <div class="form-roup">

@@ -31,6 +31,10 @@ public class Artigo {
     private String caminho;
     private Edicao edicao;
     
+    public Artigo(){
+        
+    }
+    
     public boolean equals(Artigo artigo){
         return  artigo != null
                 & this.titulo.equalsIgnoreCase(artigo.getTitulo())

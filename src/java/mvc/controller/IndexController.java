@@ -31,14 +31,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import mvc.bean.Artigo;
 import mvc.bean.Edicao;
 import org.apache.lucene.search.BooleanClause;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +44,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import util.Const;
 
@@ -81,35 +78,27 @@ public class IndexController {
             Map<String, BooleanClause.Occur> filtros = new HashMap<>();
             
             if(!artigo.getConteudo().isEmpty()){
-                System.out.println("\n\n-----------------\nFIELD:  artigo.getConteudo()");
                 filtros.put(Const.CAMPO_CONTEUDO, filtroConteudo);
             }
             if(!artigo.getTitulo().isEmpty()){
-                System.out.println("\n\n-----------------\nFIELD:  artigo.getTitulo()" + artigo.getTitulo());
-                System.out.println("\n\n-----------------\nFILTRO: " + filtroTitulo.name());
                 filtros.put(Const.CAMPO_TITULO, filtroTitulo);
             }
             if(!artigo.getAutores().isEmpty()){
-                System.out.println("\n\n-----------------\nFIELD: artigo.getAutores()");
                 filtros.put(Const.CAMPO_AUTORES, filtroAutor);
             }
             if(edicao != null){
                 artigo.setEdicao(edicao);
                 
                 if(artigo.getEdicao().getRevista() != null){
-                System.out.println("\n\n-----------------\nFIELD: artigo.getEdicao().getRevista()");
                     filtros.put(Const.CAMPO_REVISTA, filtroRevista);
                 }
                 if(artigo.getEdicao().getAno() > 0){
-                System.out.println("\n\n-----------------\nFIELD: artigo.getEdicao().getAno()");
                     filtros.put(Const.CAMPO_ANO_EDICAO, filtroAno);
                 }
                 if(artigo.getEdicao().getVolume() > 0){
-                System.out.println("\n\n-----------------\nFIELD: artigo.getEdicao().getVolume()");
                     filtros.put(Const.CAMPO_VOLUME_EDICAO, filtroVolume);
                 }
                 if(artigo.getEdicao().getNumero() > 0){
-                System.out.println("\n\n-----------------\nFIELD: artigo.getEdicao().getNumero()");
                     filtros.put(Const.CAMPO_NUMERO_EDICAO, filtroNumero);
                 }
             }
@@ -131,7 +120,6 @@ public class IndexController {
     @RequestMapping(value = "/recuperarArtigo", method = RequestMethod.GET)
     public HttpEntity<byte[]> recuperarArtigo(Artigo artigo, BindingResult result, Model model){
         HttpEntity<byte[]> httpEntity = null;
-        System.out.println("\n\n\n --------- \nRECUPERAR ARTIGO : " + artigo.getCaminho() + "\n\n---------------\n\n");
         try {
             byte[] bytesArq = Files.readAllBytes(Paths.get(Const.DIRETORIO_REPOSITORIO + artigo.getCaminho()));
             HttpHeaders httpHeaders = new HttpHeaders();
@@ -153,10 +141,8 @@ public class IndexController {
     @RequestMapping(value = "/extrairArtigo")
     public String extrairArtigo(@RequestParam("arquivo") MultipartFile mpFile, Edicao edicao, Model model){
         try {
-            edicao.imprimir();
             InputStream arquivo = new ByteArrayInputStream(mpFile.getBytes());
             String nome = mpFile.getContentType();
-            System.out.println("\n\n ----- TIPO ARQUIVO: " + nome + "\n------------\n\n");
             Extrator extrator = Extrator.getExtrator(arquivo, nome, edicao);
             model.addAttribute("artigos", extrator.processarEdicao());
         } catch (Exception ex) {
@@ -167,9 +153,16 @@ public class IndexController {
     }
     
     @RequestMapping(value = "indexarArtigo")
-    public String indexarArtigo(@ModelAttribute("artigos") ArrayList<Artigo> artigos, Model model, BindingResult result){
-        Indexador indexador = new Indexador(artigos);
-        indexador.indexa();
+    public String indexarArtigo(@RequestParam("titulo") String[] titulos, Model model){
+        System.out.println("\n\n---------------------------\n\n"
+                //+ session.getAttribute("artigos").getClass().getSimpleName()
+                + "\n\n--------------------------\n\n");
+        
+        for(String a: titulos){
+            System.out.println("\n\n-----------------------\n\nTITULO: " + a + "\n\n---------------------\n\n");
+        }
+        //Indexador indexador = new Indexador(artigos);
+        //indexador.indexa();
         model.addAttribute("msgErro", "Artigos indexados com sucesso!");
         return "/formIndexarArtigo";
     }

@@ -26,6 +26,10 @@ public class Edicao {
     private int volume;
     private int ano;
     
+    public Edicao(){
+        
+    }
+    
     public boolean equals(Edicao edicao){
         return    this.revista == edicao.getRevista()
                 & this.numero == edicao.getNumero()
