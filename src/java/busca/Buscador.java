@@ -113,13 +113,13 @@ public class Buscador {
                                              break;
                     case Const.CAMPO_AUTORES: termos = artigo.getAutores();
                                              break;
-                    case Const.CAMPO_REVISTA: termos = artigo.getEdicao().getRevista().toString();
+                    case Const.CAMPO_REVISTA: termos = artigo.getEdicao().getRevista().name();
                                              break;
-                    case Const.CAMPO_ANO_EDICAO: termos = Integer.toString(artigo.getEdicao().getAno());
+                    case Const.CAMPO_ANO_EDICAO: termos = "" + artigo.getEdicao().getAno();
                                              break;
                     case Const.CAMPO_VOLUME_EDICAO: termos = "" + artigo.getEdicao().getVolume();
                                              break;
-                    case Const.CAMPO_NUMERO_EDICAO: termos = Integer.toString(artigo.getEdicao().getNumero());
+                    case Const.CAMPO_NUMERO_EDICAO: termos = "" + artigo.getEdicao().getNumero();
                                              break;
                 }
                 
@@ -141,10 +141,6 @@ public class Buscador {
                 Document doc = searcher.doc(hit.doc);
                 Edicao edicao = new Edicao();
                 Artigo artigo = new Artigo();
-                
-                //teste
-                //System.out.println("\n\nDocumento " + hit.doc + " ,score: " + hit.score);
-                //System.out.println("Título: " + doc.get(Const.CAMPO_TITULO));
                 
                 edicao.setRevista(Revista.valueOf(doc.get(Const.CAMPO_REVISTA)));
                 edicao.setVolume(Integer.parseInt(doc.get(Const.CAMPO_VOLUME_EDICAO)));

@@ -143,7 +143,7 @@ public class Indexador {
         document.add(new Field(Const.CAMPO_NUMERO_EDICAO, Integer.toString(artigo.getEdicao().getNumero()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
         document.add(new Field(Const.CAMPO_VOLUME_EDICAO, Integer.toString(artigo.getEdicao().getVolume()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
         document.add(new Field(Const.CAMPO_ANO_EDICAO, Integer.toString(artigo.getEdicao().getAno()), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
-        document.add(new Field(Const.CAMPO_REVISTA, artigo.getEdicao().getRevista().toString(), TYPE_STORED_INDEXED_DOCS_NOT_TOKENIZED));
+        document.add(new Field(Const.CAMPO_REVISTA, artigo.getEdicao().getRevista().name(), TYPE_STORED_INDEXED_DOCS_TOKENIZED));
         
         return document;
     }

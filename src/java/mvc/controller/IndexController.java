@@ -23,17 +23,19 @@ import indexacao.Indexador;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import mvc.bean.Artigo;
 import mvc.bean.Edicao;
+import org.apache.catalina.connector.Response;
 import org.apache.lucene.search.BooleanClause;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -41,10 +43,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import util.Const;
 
 /**
@@ -55,12 +57,13 @@ import util.Const;
 @Controller
 public class IndexController {
     private final Buscador buscador;
+    private List<Artigo> artigos;
     
     public IndexController(){
         buscador = new Buscador();
     }
     
-    @RequestMapping(value = {"/", "/index"})
+    @RequestMapping(value = {"/", "/index"}, produces = "text/plain;charset=UTF-8")
     public String index(){
         return "index";
     }
@@ -78,12 +81,15 @@ public class IndexController {
             Map<String, BooleanClause.Occur> filtros = new HashMap<>();
             
             if(!artigo.getConteudo().isEmpty()){
+                artigo.setConteudo(new String(artigo.getConteudo().getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
                 filtros.put(Const.CAMPO_CONTEUDO, filtroConteudo);
             }
             if(!artigo.getTitulo().isEmpty()){
+                artigo.setTitulo(new String(artigo.getTitulo().getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
                 filtros.put(Const.CAMPO_TITULO, filtroTitulo);
             }
             if(!artigo.getAutores().isEmpty()){
+                artigo.setAutores(new String(artigo.getAutores().getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
                 filtros.put(Const.CAMPO_AUTORES, filtroAutor);
             }
             if(edicao != null){
@@ -102,14 +108,16 @@ public class IndexController {
                     filtros.put(Const.CAMPO_NUMERO_EDICAO, filtroNumero);
                 }
             }
-            System.out.println("\n\n----------------------------------Resultado da busca\n");
-            for(Artigo a: buscador.buscar(artigo, filtros)){
-                System.out.println(a.getTitulo());
+            
+            List<Artigo> artigosResultado = buscador.buscar(artigo, filtros);
+            
+            if(!artigosResultado.isEmpty()){
+                model.addAttribute("artigos", artigosResultado);
+                return "resultadoBusca";
+            }else{
+                model.addAttribute("msgErro", "Não foi encontrado nenhum artigo com os parâmetros informados.");
+                return "/index";
             }
-            System.out.println("\n----------------------------------\n\n");
-        
-            model.addAttribute("artigos", buscador.buscar(artigo, filtros));
-            return "resultadoBusca";
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("msgErro", ex.getMessage());
@@ -138,13 +146,15 @@ public class IndexController {
         return "/formIndexarArtigo";
     }
     
-    @RequestMapping(value = "/extrairArtigo")
+    @RequestMapping(value = "/extrairArtigo", produces = "text/html;charset=UTF-8")
     public String extrairArtigo(@RequestParam("arquivo") MultipartFile mpFile, Edicao edicao, Model model){
         try {
+            HttpServletResponse h = new Response();
             InputStream arquivo = new ByteArrayInputStream(mpFile.getBytes());
             String nome = mpFile.getContentType();
             Extrator extrator = Extrator.getExtrator(arquivo, nome, edicao);
-            model.addAttribute("artigos", extrator.processarEdicao());
+            artigos = extrator.processarEdicao();
+            model.addAttribute("artigos", artigos);
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
             model.addAttribute("msgErro", "");
@@ -153,17 +163,26 @@ public class IndexController {
     }
     
     @RequestMapping(value = "indexarArtigo")
-    public String indexarArtigo(@RequestParam("titulo") String[] titulos, Model model){
-        System.out.println("\n\n---------------------------\n\n"
-                //+ session.getAttribute("artigos").getClass().getSimpleName()
-                + "\n\n--------------------------\n\n");
-        
-        for(String a: titulos){
-            System.out.println("\n\n-----------------------\n\nTITULO: " + a + "\n\n---------------------\n\n");
+    public String indexarArtigo(@RequestParam("titulo") String[] titulos,
+            @RequestParam("autores") String[] autores,
+            Model model){
+        try{
+            System.out.println("\n\n-----------------------\n\n");
+            for(int i = 0; i < artigos.size(); i++){
+                artigos.get(i).setTitulo(new String(titulos[i].getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
+                artigos.get(i).setAutores(new String(autores[i].getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
+                System.out.println("TÍTULO: " + artigos.get(i).getTitulo() + "\n"
+                        + "AUTORES: " + artigos.get(i).getAutores());
+            }
+            System.out.println("\n\n---------------------\n\n");
+
+            Indexador indexador = new Indexador(artigos);
+            indexador.indexa();
+            model.addAttribute("msgErro", "Artigos indexados com sucesso!");
+        } catch (Exception e){
+            model.addAttribute("msgErro", e.getMessage());
         }
-        //Indexador indexador = new Indexador(artigos);
-        //indexador.indexa();
-        model.addAttribute("msgErro", "Artigos indexados com sucesso!");
+        
         return "/formIndexarArtigo";
     }
 }

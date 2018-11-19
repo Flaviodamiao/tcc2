@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -43,20 +43,16 @@
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
                     <table>
-                        <c:set var="contTitulo" value="1"/>
+                        <tr>
+                            <th>Título</th>
+                            <th>Autores</th>
+                        </tr>
+                        
                         <c:forEach var="artigo" items="${artigos}">
-                            <tr class="linhaArtigo">
-                                <td>
-                                    <input type="text" id="titulo}" name="titulo" value="${artigo.getTitulo()}">
-                                </td>
-                                <td>
-                                    Autores: <br>
-                                    <c:forEach var="autor" items="${fn:split(artigo.getAutores(), '-')}">
-                                        <input type="text" id="autor" name="autor" value="${autor}" ><br>
-                                    </c:forEach>
-                                </td>
+                            <tr>
+                                <td><textarea id="titulo" name="titulo">${artigo.getTitulo()}</textarea></td>
+                                <td><textarea type="text" id="autores" name="autores" >${artigo.getAutores()}</textarea></td>
                             </tr>
-                            <c:set var="contTitulo" value="${contTitulo + 1}"/>
                         </c:forEach>
                     </table>
                     <div class="form-roup">
@@ -79,11 +75,9 @@
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-    <!--script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script-->
+    <script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script>
     <script>
-        if("${msgErro}" !== ""){
-            window.alert("${msgErro}");
-        }
+        exibirMsg("${msgErro}");
     </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    
+
 
     
 //Cria um atributo artigos na sessionStorage para ser recuperao pelo controller,
@@ -26,3 +28,9 @@ function setArtigosExtraidos(){
     sessionStorage.setItem("artigosExtraidos", artigosExtraidos);
 }
 });
+
+function exibirMsg(msg){
+    if(msg !== ""){
+        alert(msg);
+    }
+}
