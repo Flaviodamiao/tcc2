@@ -13,8 +13,6 @@
     <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
     <style type="text/css">
-
-
     </style>
 </head>
 <body>
@@ -36,12 +34,12 @@
                 <aside>
                     <iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
                 </aside>
-            </div>-->
+            </div>
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
-                    <h4>Digite os termos de sua pesquisa nos campos de busca desejados e indique se o termo é obrigatório ou não</h4>
+                    <h4 align="center">Pesquisa</h4>
                     <div class="form-group">
                         <label for="conteudo">Texto completo</label>
                         <select name="filtroConteudo">
@@ -51,63 +49,93 @@
                         </select>
                         <input id="conteudo" name="conteudo" type="text">
                     </div>
-                    <div class="form-group">
-                        <label for="titulo">Título</label>
-                        <select name="filtroTitulo">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="titulo" name="titulo" type="text">
+
+                    <!-- Modal Pesquisa Avançada-->
+                    <div class="modal fade" id="pesqAvancadaModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button id="btnFechar" type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Pesquisa Avançada</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="conteudoAvanc">Texto completo</label>
+                                    <select name="filtroConteudoAvanc">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="conteudoAvanc" name="conteudoAvanc" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="titulo">Título</label>
+                                    <select name="filtroTitulo">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="titulo" name="titulo" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="autores">Autor</label>
+                                    <select name="filtroAutores">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="autores" name="autores" type="text">
+                                </div>
+                                <h4>Edicão</h4>
+                                <div class="form-group">
+                                    <label for="revista">Revista</label>
+                                    <select name="filtroRevista">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="revista" name="revista" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ano">Ano</label>
+                                    <select name="filtroAno">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="ano" name="ano" type="number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="volume">Volume</label>
+                                    <select name="filtroVolume">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="volume" name="volume" type="number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numero">Número</label>
+                                    <select name="filtroNumero">
+                                        <option value="MUST">E</option>
+                                        <option value="SHOULD">OU</option>
+                                        <option value="MUST_NOT">NÃO</option>
+                                    </select>
+                                    <input id="numero" name="numero" type="number">
+                                </div>
+                              </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="btnPesquisaAvancada" class="btn btn-default">Pesquisar</button>
+                                    <button type="btnCancelaPA" id="btnCancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="autores">Autor</label>
-                        <select name="filtroAutores">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="autor" name="autores" type="text">
-                    </div>
-                    <h4>Edicão</h4>
-                    <div class="form-group">
-                        <label for="revista">Revista</label>
-                        <select name="filtroRevista">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="revista" name="revista" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="ano">Ano</label>
-                        <select name="filtroAno">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="ano" name="ano" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="volume">Volume</label>
-                        <select name="filtroVolume">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="volume" name="volume" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="numero">Número</label>
-                        <select name="filtroNumero">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="numero" name="numero" type="text">
-                    </div>
+                    
                     <div class="form-roup">
-                        <button id="btnPesquisar" type="submit">Pesquisar</button>
+                        <button type="submit" id="btnPesquisar">Pesquisar</button>
+                        <button type="button" id="btnPesqAvancada" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pesqAvancadaModal">Pesquisa Avançada</button>
                     </div>
                 </form>
             </div>
@@ -122,6 +150,7 @@
                 </footer>
             </div>	
         </div-->
+        </div>
     </div>
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>

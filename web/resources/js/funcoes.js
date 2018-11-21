@@ -1,33 +1,49 @@
 $(document).ready(function(){
-    
 
-
-    
-//Cria um atributo artigos na sessionStorage para ser recuperao pelo controller,
-//obtendo modificações feitas pelo usuário
-function setArtigosExtraidos(){
-    var artigosExtraidos = [];
-
-    $(".linhaArtigo").each(function(index, linha){
-        var artigo = {
-            titulo: $(linha + " #titulo").attr("value"),
-            autores: function() {
-                var autores = [];
-
-                $(linha + " #autor").each(function(idx, autor){
-                    autores[idx] = $(autor).attr("value") + " - "
-                });
-                
-                return autores.toString();
-            }
-        };
-
-        artigosExtraidos[index] = artigo;
-    });
-
-    sessionStorage.setItem("artigosExtraidos", artigosExtraidos);
-}
 });
+
+$("#btnPesqAvancada").on("click", function(){
+    $("select[name='filtroConteudoAvanc']").val($("select[name='filtroConteudo']").val());
+    $("#conteudoAvanc").val($("#conteudo").val());
+});
+
+$("#btnCancelar").on("click", function(){
+    $("select[name='filtroConteudo']").val($("select[name='filtroConteudoAvanc']").val());
+    $("#conteudo").val($("#conteudoAvanc").val());
+});
+
+$("#btnFechar").on("click", function(){
+    $("select[name='filtroConteudo']").val($("select[name='filtroConteudoAvanc']").val());
+    $("#conteudo").val($("#conteudoAvanc").val());
+});
+
+//limpa os campos da pesquisa avançada ao clicar no botão de pesquisa simples
+$("#btnPesquisar").on("click", function(){
+    $("#titulo").val("");
+    $("#autores").val("");
+    $("#ano").val("");
+    $("#volume").val("");
+    $("#numero").val("");
+    
+    if($("#conteudo").val().length < 3){
+        alert("O campo da pesquisa precisa conter ao menos 3 letras");
+        return false;
+    }
+});
+
+$("#btnPesquisaAvancada").on("click", function(){
+    
+    if($("#conteudo").val().length < 3 && $("#titulo").val().length < 3
+            && $("#autores").val().length < 3 && $("#ano").val() <= 0
+            && $("#volume").val().length <= 0 && $("#numero").val() <= 0){
+        
+        alert("É necessário que ao menos um campo seja preenchido com um valor válido!\n\
+                Campos \"Texto Completo\", \"Título\" e \"Autores\" devem ter ao menos 3 letras\n\
+                Os demais campos devem possuir valor maior que zero.");
+        return false;
+    }
+});
+
 
 function exibirMsg(msg){
     if(msg !== ""){
