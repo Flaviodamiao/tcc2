@@ -1,4 +1,19 @@
+.btnPesquisa{
+    align: center;
+}
 
+.divBtnPesquisa{
+    text-align: center;
+}
+
+.divFormConteudo{
+    text-align: center;
+    
+}
+
+.inputConteudo{
+    width: 50%;
+}
 
 body{
 	background-color: #EDE4F9;

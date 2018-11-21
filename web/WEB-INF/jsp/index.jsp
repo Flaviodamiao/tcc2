@@ -29,25 +29,26 @@
 
         <div class="row">
 
-            <!-- Menu lateral -->
+            <!-- Menu lateral ->
             <div class="col-md-3 col-sm-3 col-xs-12">
                 <aside>
                     <iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
                 </aside>
-            </div>
+            </div-->
                 
             <!-- Conteudo -->
-            <div class="col-md-9 col-sm-9 col-xs-12 q">
+            <div class="col-md-12 col-sm-12 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
                     <h4 align="center">Pesquisa</h4>
-                    <div class="form-group">
-                        <label for="conteudo">Texto completo</label>
-                        <select name="filtroConteudo">
-                            <option value="MUST">E</option>
-                            <option value="SHOULD">OU</option>
-                            <option value="MUST_NOT">NÃO</option>
-                        </select>
-                        <input id="conteudo" name="conteudo" type="text">
+                    <div class="form-group col-md-12 col-sm-12 divFormConteudo">
+                        <div class="divFormConteudo">
+                            <input id="conteudo" name="conteudo" type="text" class="input-lg inputConteudo" align="center">
+                            <input type="hidden" id="filtroConteudo" name="filtroConteudo" value="MUST">
+                        </div>
+                    </div>
+                    <div class="btn-block divBtnPesquisa">
+                        <button type="submit" id="btnPesquisar" class="btn btn-info btn-lg">Pesquisar</button>
+                        <button type="button" id="btnModalPesqAvancada" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pesqAvancadaModal">Pesquisa Avançada</button>
                     </div>
 
                     <!-- Modal Pesquisa Avançada-->
@@ -131,11 +132,6 @@
                             </div>
 
                         </div>
-                    </div>
-                    
-                    <div class="form-roup">
-                        <button type="submit" id="btnPesquisar">Pesquisar</button>
-                        <button type="button" id="btnPesqAvancada" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pesqAvancadaModal">Pesquisa Avançada</button>
                     </div>
                 </form>
             </div>

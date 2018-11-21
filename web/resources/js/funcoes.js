@@ -2,29 +2,30 @@ $(document).ready(function(){
 
 });
 
-$("#btnPesqAvancada").on("click", function(){
-    $("select[name='filtroConteudoAvanc']").val($("select[name='filtroConteudo']").val());
+$("#btnModalPesqAvancada").on("click", function(){
     $("#conteudoAvanc").val($("#conteudo").val());
 });
 
 $("#btnCancelar").on("click", function(){
-    $("select[name='filtroConteudo']").val($("select[name='filtroConteudoAvanc']").val());
     $("#conteudo").val($("#conteudoAvanc").val());
-});
-
-$("#btnFechar").on("click", function(){
-    $("select[name='filtroConteudo']").val($("select[name='filtroConteudoAvanc']").val());
-    $("#conteudo").val($("#conteudoAvanc").val());
-});
-
-//limpa os campos da pesquisa avançada ao clicar no botão de pesquisa simples
-$("#btnPesquisar").on("click", function(){
     $("#titulo").val("");
     $("#autores").val("");
     $("#ano").val("");
     $("#volume").val("");
     $("#numero").val("");
-    
+});
+
+$("#btnFechar").on("click", function(){
+    $("#conteudo").val($("#conteudoAvanc").val());
+    $("#titulo").val("");
+    $("#autores").val("");
+    $("#ano").val("");
+    $("#volume").val("");
+    $("#numero").val("");
+});
+
+//limpa os campos da pesquisa avançada ao clicar no botão de pesquisa simples
+$("#btnPesquisar").on("click", function(){
     if($("#conteudo").val().length < 3){
         alert("O campo da pesquisa precisa conter ao menos 3 letras");
         return false;
@@ -33,7 +34,7 @@ $("#btnPesquisar").on("click", function(){
 
 $("#btnPesquisaAvancada").on("click", function(){
     
-    if($("#conteudo").val().length < 3 && $("#titulo").val().length < 3
+    if($("#conteudoAvanc").val().length < 3 && $("#titulo").val().length < 3
             && $("#autores").val().length < 3 && $("#ano").val() <= 0
             && $("#volume").val().length <= 0 && $("#numero").val() <= 0){
         
@@ -42,6 +43,9 @@ $("#btnPesquisaAvancada").on("click", function(){
                 Os demais campos devem possuir valor maior que zero.");
         return false;
     }
+    
+    $("#filtroConteudo").val($("select[name='filtroConteudoAvanc']").val());
+    $("#conteudo").val($("#conteudoAvanc").val());
 });
 
 

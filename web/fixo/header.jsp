@@ -1,35 +1,48 @@
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
 
+<html lang="pt-br">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="view report" content="width=device-width, initial-scale=1">
+
+    <title>Pesquisar</title>
+
+    <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
+    <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
+    <style type="text/css">
+    </style>
+</head>
+<body>
             <div class="row">
                 <div class="navbar-default navbar navbar-toogle responsive">
 
                     <!-- Logo -->
                     <a href="<c:url value='/index'/>" target="_parent">
-                        <figure class="col-md-3 col-sm-3 col-xs-12">
+                        <figure class="col-md-9 col-sm-9 col-xs-12">
                             <img src="<c:url value='/resources/img/logo.png'/>" class="img-responsive img-rounded" alt="logo"></img>
                         </figure>
                     </a>
+                        
+                    <!-- Menu Usuário -->
+                    <div class="col-md-3 col-sm-3 col-xs-3 cxPesquisa">
+                        <label class="label-info"> Administrador logado</label>
+                    </div>
 
                     <!-- Menu Empresa -->
                     <div class="ulMenu">
                         <ul class="nav navbar-nav col-md-5 col-sm-5 col-xs-12">
-                            <li class="li"><a href="<c:url value='/index'/>" target="_parent"><strong>In�cio</strong></a></li>
-                            <li class="li"><a href="<c:url value='/carrinho'/>" target="_parent"><strong>Carrinho</strong></a></li>
-                            <li class="li"><a href="<c:url value='/formCadCliente'/>" target="_parent"><strong>Cadastro Cliente</strong></a></li>
-                            <li class="li liLast"><a href="<c:url value='/trabalhe_conosco'/>" target="_parent"><strong>Trabalhe Conosco</strong></a></li>
+                            <li class="li"><a href="<c:url value='/index'/>" target="_parent"><strong>Início</strong></a></li>
+                            <li class="li"><a href="<c:url value='/formIndexarArtigo'/>" target="_parent"><strong>Área da Administração</strong></a></li>
                         </ul>
-                    </div>
-
-                    <!-- Caixa de pesquisa -->
-                    <div class="col-md-4 col-sm-4 col-xs-12 cxPesquisa">
-                        <form id="pesquisar" action="<c:url value='/index'/>" target="_parent" method="post" class="form-inline">
-                            <div class="form-group">
-                                <input id="textoPesquisa" type="text" class="form-control" placeholder="Digite aqui sua pesquisa">
-                                <button id="btPesquisar" type="submit" class="btn default">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    Pesquisar
-                                </button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
+
+    <script src="<c:url value='/resources/js/jquery.js'/>"></script>
+    <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script>
+</body>
+</html>
