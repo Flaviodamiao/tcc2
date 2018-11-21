@@ -28,18 +28,10 @@
         </div>
 
         <div class="row">
-
-            <!-- Menu lateral ->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <aside>
-                    <iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
-                </aside>
-            </div-->
-                
             <!-- Conteudo -->
             <div class="col-md-12 col-sm-12 col-xs-12 q">
                 <form id="formPesquisa" action="<c:url value='/realizarBusca'/>" method="post" target="_parent">
-                    <h4 align="center">Pesquisa</h4>
+                    <h4 align="center" class="primElemento">Pesquisa</h4>
                     <div class="form-group col-md-12 col-sm-12 divFormConteudo">
                         <div class="divFormConteudo">
                             <input id="conteudo" name="conteudo" type="text" class="input-lg inputConteudo" align="center">
@@ -48,7 +40,7 @@
                     </div>
                     <div class="btn-block divBtnPesquisa">
                         <button type="submit" id="btnPesquisar" class="btn btn-info btn-lg">Pesquisar</button>
-                        <button type="button" id="btnModalPesqAvancada" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pesqAvancadaModal">Pesquisa Avançada</button>
+                        <button type="button" id="btnModalPesqAvancada" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pesqAvancadaModal">Adicionar Filtros</button>
                     </div>
 
                     <!-- Modal Pesquisa Avançada-->
@@ -135,17 +127,6 @@
                     </div>
                 </form>
             </div>
-                
-        </div>
-                
-        <!-- Rodapé -->
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <footer>
-                    <iframe id="ifFooter" src="<c:url value='/fixo/footer.jsp'/>" class="embed-responsive-item"></iframe>
-                </footer>
-            </div>	
-        </div-->
         </div>
     </div>
 

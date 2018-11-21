@@ -20,23 +20,16 @@
 <body>
     <div class="container">
         
-        <!-- Menu topo ->
+        <!--Menu topo -->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <header>
-                    <iframe id="ifHeader" src="<c:url value='/fixo/header.jsp'/>" class="embed-responsive-item"></iframe>
+                    <c:import url="/fixo/header.jsp"></c:import>
                 </header>
             </div>
         </div>
 
         <div class="row">
-
-            <!-- Menu lateral ->
-            <div class="col-md-3 col-sm-3 col-xs-12">
-                <aside>
-<iframe id="ifAside" src="<c:url value='/fixo/aside.jsp'/>"></iframe>
-                </aside>
-            </div>-->
                 
             <!-- Conteudo -->
             <div class="col-md-9 col-sm-9 col-xs-12 q">

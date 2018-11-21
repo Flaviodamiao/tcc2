@@ -35,8 +35,8 @@ $("#btnPesquisar").on("click", function(){
 $("#btnPesquisaAvancada").on("click", function(){
     
     if($("#conteudoAvanc").val().length < 3 && $("#titulo").val().length < 3
-            && $("#autores").val().length < 3 && $("#ano").val() <= 0
-            && $("#volume").val().length <= 0 && $("#numero").val() <= 0){
+            && $("#autores").val().length < 3 && $("#revista").val().length < 3
+            && $("#ano").val() <= 0 && $("#volume").val().length <= 0 && $("#numero").val() <= 0){
         
         alert("É necessário que ao menos um campo seja preenchido com um valor válido!\n\
                 Campos \"Texto Completo\", \"Título\" e \"Autores\" devem ter ao menos 3 letras\n\

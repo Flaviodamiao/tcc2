@@ -16,30 +16,25 @@
     </style>
 </head>
 <body>
-            <div class="row">
-                <div class="navbar-default navbar navbar-toogle responsive">
+    <div class="row">
+        <div class="navbar-default navbar navbar-toogle responsive">
 
-                    <!-- Logo -->
-                    <a href="<c:url value='/index'/>" target="_parent">
-                        <figure class="col-md-9 col-sm-9 col-xs-12">
-                            <img src="<c:url value='/resources/img/logo.png'/>" class="img-responsive img-rounded" alt="logo"></img>
-                        </figure>
-                    </a>
-                        
-                    <!-- Menu Usuário -->
-                    <div class="col-md-3 col-sm-3 col-xs-3 cxPesquisa">
-                        <label class="label-info"> Administrador logado</label>
-                    </div>
+            <!-- Logo -->
+            <a href="<c:url value='/index'/>" target="_parent">
+                <figure class="col-md-9 col-sm-9 col-xs-12">
+                    <img src="<c:url value='/resources/img/logo.png'/>" class="img-responsive img-rounded" alt="logo"></img>
+                </figure>
+            </a>
 
-                    <!-- Menu Empresa -->
-                    <div class="ulMenu">
-                        <ul class="nav navbar-nav col-md-5 col-sm-5 col-xs-12">
-                            <li class="li"><a href="<c:url value='/index'/>" target="_parent"><strong>Início</strong></a></li>
-                            <li class="li"><a href="<c:url value='/formIndexarArtigo'/>" target="_parent"><strong>Área da Administração</strong></a></li>
-                        </ul>
-                    </div>
-                </div>
+            <!-- Menu Empresa -->
+            <div class="ulMenu">
+                <ul class="nav navbar-nav col-md-5 col-sm-5 col-xs-12">
+                    <li class="li"><a href="<c:url value='/index'/>" target="_parent"><strong>Início</strong></a></li>
+                    <li class="li"><a href="<c:url value='/formIndexarArtigo'/>" target="_parent"><strong>Área da Administração</strong></a></li>
+                </ul>
             </div>
+        </div>
+    </div>
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
