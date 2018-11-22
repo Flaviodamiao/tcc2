@@ -6,6 +6,7 @@ body{
 	padding: 0px;
 }
 
+/*Configurações do formulário de pesquisa*/
 .primElemento{
     margin-top: 150px;
 }
@@ -24,11 +25,25 @@ body{
 
 div{border-radius: 7px 7px 7px 7px;}
 
+/*Configurações do header*/
+ul{	list-style-type:none }
+
+img{max-height:50px; margin-left:0px;	margin-right: auto; margin-bottom: 20px}
 
 .navbar{
     background: rgb(227, 241, 255);
     background: rgba(227, 241, 255, 0);
     border-style: hidden;
+}
+
+.navbar-header{
+    background-color: #E3E8FC;
+    text-align: center;
+    width: available;
+
+}
+.menu{
+    list-style-type: none;
 }
 
 .divResultado{
@@ -39,27 +54,25 @@ div{border-radius: 7px 7px 7px 7px;}
     border-style: hidden;
 }
 
-ul{	list-style-type:none }
-
-img{max-height:150px; margin-left:0px;	margin-right: auto; margin-bottom: 20px}
-
 .table-striped > tbody > tr:nth-of-type(2n) {background-color: #E6FED8;}
 
-td:last-child{text-align:center; width: 20%}
-
-td:first-child{width:20%}
-
-footer{float: center; padding-top: 3%;}
-
-footer div{min-height:70px; margin-left: 35%;}
-
-fieldset:nth-child(odd){
-	background-color: #FFF7E0;
-	padding: 10px 10px 10px 10px;
+td:last-child{
+    vertical-align: middle;
+    text-align:left;
+    width: 20%;
+    padding-left: 20px;
+    padding-bottom: 20px;
 }
 
+td:first-child{
+    vertical-align: middle;
+}
 
-fieldset:nth-child(even){
-	background-color: #D4C9AC;
-	padding: 10px 10px 10px 10px;
+.tareaTitExtraido{
+    width: 90%;
+    height: 100%
+}
+
+.tareaAutExtraido{
+    width: 100%;
 }

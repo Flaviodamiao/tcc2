@@ -8,91 +8,46 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="view report" content="width=device-width, initial-scale=1">
 	
-	<title>Carros Online</title>
-	
         <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
         <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
 	<style type="text/css">
-		.navbar-brand{
-			background-color: #E3E8FC;
-			width: 100%;
-			text-align: center;
-		}
-		
-		
-		.menu li  ul{
-			display: none;
-		}
-		
-		.menu li:hover{
-			background-color: white;
-		}
-		
-		li:hover ul{
-			border: 0pxpx solid black;
-			list-style-type: none;
-			display: block;
-			background-color: white;
-			position: static;
-		}
-		
-		li:hover ul li{
-			border: 0px solid black;
-		}
-		
-		.menu{
-			list-style-type: none;
-		}
-		
-		li img{
-			width: 70px;
-			padding-right: 5px;
-			padding-bottom: 5px;
-		}
-		
-		
 	</style>
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="navbar-default navbar navbar-toogle responsive">
-				<div class="navbar-header">
-					<span class="navbar-brand">Categorias</span>
-				</div>
-				<ul class="nav menu">
-                                    <li class=""><img src="<c:url value='/resources/img/civil.jpg'/>"></img>Construção Civil
-						<ul class="">
-							<li>Pedreiro</li>
-							<li>Pintor</li>
-							<li>Eletricista - Predial</li>
-							<li>Carpinteiro</li>
-							<li>Marceneiro</li>
-						</ul>
-					</li>	
-					<li><img src="<c:url value='/resources/img/eletrodomesticos.png'/>"></img>Eletricista - Eletrônica</li>
-					<li><img src="<c:url value='/resources/img/limpeza.png'/>"></img>Limpeza</li>
-					<li><img src="<c:url value='/resources/img/alimentacao.png'/>"></img>Alimentação</li>
-					<li><img src="<c:url value='/resources/img/eventos.jpg'/>"></img>Eventos
-						<ul>
-							<li>Ornamentação</li>
-							<li>Jogos de mesa</li>
-							<li>Jogos de prato</li>
-						</ul>
-					</li>
-					<li><img src="<c:url value='/resources/img/artesanato.png'/>"></img>Artesanato
-						<ul>
-							<li>Pintura</li>
-							<li>Corte / Costura</li>
-							<li>Estatuetas</li>
-						</ul>
-					</li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="navbar-default navbar navbar-toogle responsive">
+                <div class="navbar-header col-md-12 col-sm-12 col-xs-12">
+                    <span class="navbar-brand">Filtros Aplicados</span>
+                </div>
+                <div class="list-group col-md-12 col-sm-12 col-xs-12">
+                    <ul class="nav menu list-group">	
+                        <c:if test="${!artigo.getConteudo().equals('')}">
+                            <li class="list-group-item"><strong>Texto Completo:</strong> ${artigo.getConteudo()}</li>
+                        </c:if>
+                        <c:if test="${!artigo.getTitulo().equals('')}">
+                            <li class="list-group-item"><strong>Título:</strong> ${artigo.getTitulo()}</li>
+                        </c:if>
+                        <c:if test="${!artigo.getAutores().equals('')}">
+                        <li class="list-group-item"><strong>Autores:</strong> ${artigo.getAutores()}</li>
+                        </c:if>
+                        <c:if test="${edicao.getRevista().name() != null}">
+                            <li class="list-group-item"><strong>Revista:</strong> ${edicao.getRevista()}</li>
+                        </c:if>
+                        <c:if test="${edicao.getAno() > 0}">
+                            <li class="list-group-item"><strong>Ano:</strong> ${edicao.getAno()}</li>
+                        </c:if>
+                        <c:if test="${edicao.getVolume() > 0}">
+                            <li class="list-group-item"><strong>Volume:</strong> ${edicao.getVolume()}</li>
+                        </c:if>
+                        <c:if test="${edicao.getNumero() > 0}">
+                            <li class="list-group-item"><strong>Número:</strong> ${edicao.getNumero()}</li>
+                        </c:if>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 	
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>

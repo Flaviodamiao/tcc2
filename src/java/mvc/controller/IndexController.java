@@ -108,16 +108,16 @@ public class IndexController {
             if(edicao != null){
                 artigo.setEdicao(edicao);
                 
-                if(artigo.getEdicao().getRevista() != null){
+                if(edicao.getRevista() != null){
                     filtros.put(Const.CAMPO_REVISTA, filtroRevista);
                 }
-                if(artigo.getEdicao().getAno() > 0){
+                if(edicao.getAno() > 0){
                     filtros.put(Const.CAMPO_ANO_EDICAO, filtroAno);
                 }
-                if(artigo.getEdicao().getVolume() > 0){
+                if(edicao.getVolume() > 0){
                     filtros.put(Const.CAMPO_VOLUME_EDICAO, filtroVolume);
                 }
-                if(artigo.getEdicao().getNumero() > 0){
+                if(edicao.getNumero() > 0){
                     filtros.put(Const.CAMPO_NUMERO_EDICAO, filtroNumero);
                 }
             }
@@ -125,7 +125,10 @@ public class IndexController {
             List<Artigo> artigosResultado = buscador.buscar(artigo, filtros);
             
             if(!artigosResultado.isEmpty()){
+                model.addAttribute("artigo", artigo);
+                model.addAttribute("edicao", edicao);
                 model.addAttribute("artigos", artigosResultado);
+                model.addAttribute("filtros", filtros);
                 return "/resultadoBusca";
             }else{
                 model.addAttribute("msgErro", "Não foi encontrado nenhum artigo com os parâmetros informados.");

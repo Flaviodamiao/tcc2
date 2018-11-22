@@ -8,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="view report" content="width=device-width, initial-scale=1">
 
-    <title>Pesquisar</title>
-
     <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
     <style type="text/css">
@@ -26,7 +24,7 @@
                 </figure>
             </a>
 
-            <!-- Menu Empresa -->
+            <!-- Menu -->
             <div class="ulMenu">
                 <ul class="nav navbar-nav col-md-5 col-sm-5 col-xs-12">
                     <li class="li"><a href="<c:url value='/index'/>" target="_parent"><strong>Início</strong></a></li>

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="view report" content="width=device-width, initial-scale=1">
 
-    <title>Pesquisar</title>
+    <title>Início - Pesquisar</title>
 
     <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>

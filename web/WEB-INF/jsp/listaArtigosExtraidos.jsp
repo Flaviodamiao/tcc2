@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="view report" content="width=device-width, initial-scale=1">
 
-    <title>Pesquisar</title>
+    <title>Confirmar Dados dos Artigos</title>
 
     <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
@@ -30,38 +30,27 @@
             </div>
         </div>
                 
-            <!-- Conteudo -->
-            <div class="col-md-9 col-sm-9 col-xs-12 q">
-                <form id="formPesquisa" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
-                    <table>
+        <!-- Conteudo -->
+        <div class="col-md-9 col-sm-9 col-xs-12 q">
+            <form id="formPesquisa" action="<c:url value='/indexarArtigo'/>" method="post" target="_parent">
+                <table>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autores</th>
+                    </tr>
+
+                    <c:forEach var="artigo" items="${artigos}">
                         <tr>
-                            <th>Título</th>
-                            <th>Autores</th>
+                            <td><textarea id="titulo" name="titulo" class="text-justify tareaTitExtraido" required>${artigo.getTitulo()}</textarea></td>
+                            <td><textarea id="autores" name="autores" class="text-justify tareaAutExtraido" required>${artigo.getAutores()}</textarea></td>
                         </tr>
-                        
-                        <c:forEach var="artigo" items="${artigos}">
-                            <tr>
-                                <td><textarea id="titulo" name="titulo">${artigo.getTitulo()}</textarea></td>
-                                <td><textarea type="text" id="autores" name="autores" >${artigo.getAutores()}</textarea></td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                    <div class="form-roup">
-                        <button id="btnPesquisar" type="submit">Confimar e Indexar</button>
-                    </div>
-                </form>
-            </div>
-                
-        <!--/div>
-                
-        <!-- Rodapé ->
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <footer>
-                    <iframe id="ifFooter" src="<c:url value='/fixo/footer.jsp'/>" class="embed-responsive-item"></iframe>
-                </footer>
-            </div>	
-        </div-->
+                    </c:forEach>
+                </table>
+                <div class="form-roup">
+                    <button id="btnPesquisar" type="submit">Confimar e Indexar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>

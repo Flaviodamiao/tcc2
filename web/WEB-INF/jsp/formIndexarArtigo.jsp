@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="view report" content="width=device-width, initial-scale=1">
 
-    <title>Pesquisar</title>
+    <title>Adicionar Artigos</title>
 
     <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet"/>
     <link href="<c:url value='/resources/css/style.css'/>" rel="stylesheet"/>
@@ -36,19 +36,19 @@
                 <form id="formIndexarArtigo" action="<c:url value='/extrairArtigo'/>" method="post" enctype="multipart/form-data" target="_parent">
                     <div class="form-group">
                         <label>Revista:</label>
-                        <input type="text" name="revista">
+                        <input type="text" name="revista" required>
                     </div>
                     <div class="form-group">
                         <label>Ano:</label>
-                        <input type="number" name="ano">
+                        <input type="number" name="ano" required>
                     </div>
                     <div class="form-group">
                         <label>Volume:</label>
-                        <input type="number" name="volume">
+                        <input type="number"  name="volume" required>
                     </div>
                     <div class="form-group">
                         <label>Número:</label>
-                        <input type="number" name="numero">
+                        <input type="number" name="numero" required>
                     </div>
                     
                     <div class="form-group">
@@ -63,22 +63,12 @@
                     </div>
                 </form>
             </div>
-                
-        <!--/div>
-                
-        <!-- Rodapé ->
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <footer>
-                    <iframe id="ifFooter" src="<c:url value='/fixo/footer.jsp'/>" class="embed-responsive-item"></iframe>
-                </footer>
-            </div>	
-        </div-->
+        </div>
     </div>
 
     <script src="<c:url value='/resources/js/jquery.js'/>"></script>
     <script src="<c:url value='/resources/js/bootstrap.min.js'/>"></script>
-    <script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script-->
+    <script type="text/javascript" src="<c:url value='/resources/js/funcoes.js'/>"></script>
     <script>
         exibirMsg("${msgErro}");
     </script>
