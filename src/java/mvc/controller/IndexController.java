@@ -191,7 +191,7 @@ public class IndexController {
             model.addAttribute("artigos", artigos);
         } catch (Exception ex) {
             Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
-            model.addAttribute("msgErro", "");
+            model.addAttribute("msgErro", ex.getMessage());
         }
         return "/listaArtigosExtraidos";
     }

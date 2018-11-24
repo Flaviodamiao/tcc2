@@ -62,8 +62,8 @@ class ExtratorPDF extends Extrator{
                 document = PDDocument.load(arquivo);
             } catch (IOException ex) {
                 Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-                mensagem = "Erro ao carregar revista. Verifique se o arquivo está corrompido ou se "
-                        + "o conteúdo do arquivo está no formato especificado.";
+                throw new IOException("Erro ao carregar revista. Verifique se o arquivo está corrompido ou se "
+                        + "o conteúdo do arquivo está no formato especificado.");
             }
     }
     
@@ -111,7 +111,7 @@ class ExtratorPDF extends Extrator{
             
             } catch (IOException ex) {
                 Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-                mensagem = "Erro ao tentar processar as páginas da edição.";
+                throw new IOException("Erro ao tentar processar as páginas da edição.");
             }
         }
         
@@ -134,37 +134,41 @@ class ExtratorPDF extends Extrator{
     }
     
     //Salva um artigo, extraído da edição, no caminho especificado
-    private void gravarArtigo(PDDocument artigoExtraido, String caminho){
+    private void gravarArtigo(PDDocument artigoExtraido, String caminho) throws IOException{
         try{
             System.out.println("Salvando artigo: " + caminhoRepositorio + caminho);
             artigoExtraido.save(caminhoRepositorio + caminho);
             artigoExtraido.close();
         } catch (IOException ex) {
             Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-            mensagem = "Erro ao gravar artigo em disco.";
+            throw new IOException("Erro ao gravar artigo em disco.");
         }
     }
     
     
     //Extrai do arquivo de uma edição as páginas correspondentes a um artigo.
     //A classe PageExtractor conta as páginas a partir de 1.
-    private PDDocument extrairArtigo(int pagInicial, int pagFinal){
+    private PDDocument extrairArtigo(int pagInicial, int pagFinal) throws IOException{
         try {
             return new PageExtractor(document, pagInicial, pagFinal).extract();
         } catch (IOException ex) {
             Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
-            mensagem = "Erro ao extrair artigo do documento.";
+            throw new IOException("Erro ao extrair artigo do documento.");
         }
-        return null;
     }
     
     
     @Override
     protected void gravarEdicaoRepositorio() throws IOException{
-        String caminho = caminhoRepositorio + caminhoRelEdicao + "\\" + edicao.getRevista() + "_vol-" + edicao.getVolume() 
-                + "_N-" + edicao.getNumero() + ".pdf";
-        System.out.println("Enviando edição para o repositório, na pasta: " + caminho);
-        document.save(new File(caminho));
+        try {
+            String caminho = caminhoRepositorio + caminhoRelEdicao + "\\" + edicao.getRevista() + "_vol-" + edicao.getVolume()
+                    + "_N-" + edicao.getNumero() + ".pdf";
+            System.out.println("Enviando edição para o repositório, na pasta: " + caminho);
+            document.save(new File(caminho));
+        } catch (IOException ex) {
+            Logger.getLogger(ExtratorPDF.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException("Houve um erro ao gravar o arquivo da edição no repositório.");
+        }
     }
 }
 

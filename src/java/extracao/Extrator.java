@@ -66,8 +66,7 @@ public abstract class Extrator{
             //código que irá retornar um objeto para tratar arquivos do Microsoft Office Word
         }
         
-        mensagem = "O arquivo não está em um formato reconhecido pelo sistema.";
-        return null;
+        throw new IllegalArgumentException("O arquivo não está em um formato reconhecido pelo sistema.");
     }
     
     //Adiciona cada artigo encontrado à lista de artigos que será retornada

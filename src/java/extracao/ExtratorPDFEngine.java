@@ -18,6 +18,8 @@ package extracao;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mvc.bean.Revista;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -94,19 +96,19 @@ class ExtratorPDFEngine extends PDFTextStripper{
      */
     @Override
     protected void writeString(String linha, List<TextPosition> textPositions) throws IOException{
-        extrairTitulo(linha, textPositions);
-        
-        coletarAutores(linha, textPositions);
-        
-        if(linha.trim().equalsIgnoreCase(padraoInicioArtigo) && !finalizaAnalise){
-            encontrouInicioArtigo = true;
-        }
-        
-        if(linha.trim().equalsIgnoreCase(padraoFimAnalise)){
-            finalizaAnalise = true;
-        }
-        
-        linhaAnterior = linha;
+            extrairTitulo(linha, textPositions);
+            
+            coletarAutores(linha, textPositions);
+
+            if(linha.trim().equalsIgnoreCase(padraoInicioArtigo) && !finalizaAnalise){
+                encontrouInicioArtigo = true;
+            }
+
+            if(linha.trim().equalsIgnoreCase(padraoFimAnalise)){
+                finalizaAnalise = true;
+            }
+
+            linhaAnterior = linha;
     }
     
     /**
@@ -130,48 +132,53 @@ class ExtratorPDFEngine extends PDFTextStripper{
      * nomes de autores da revista em questão e, caso positivo,
      * constrói lista de autores
      */
-    private void coletarAutores(String linha, List<TextPosition> textPositions){
-        //Inicia e continua a construção da lista de autores a cada nova chamada
-        if((!construindoTitulo & linhaEstaNegrito(textPositions)) 
-                & (titulo.contains(linhaAnterior) || coletandoAutores) 
-                & !titulo.equals("") & autores.isEmpty()){
-            linhaAutores += linha;
-            coletandoAutores = true;
-        }else if(coletandoAutores){ //Caso esteja coletando lista de autores e encontre o final da lista 
-            int contaAutores = 1;
-            int indexOfContAutores = linhaAutores.indexOf(Integer.toString(contaAutores));
-            
-            //Caso o artigo possua apenas um autor
-            if(indexOfContAutores == -1){
-                autores += linhaAutores.substring(0);
-            }
-            
-            while( indexOfContAutores > 0){
-                autores += linhaAutores.substring(0, indexOfContAutores);
-                
-                if(indexOfContAutores + 2 >= linhaAutores.length()){
-                    break;
-                }else{
-                    linhaAutores = linhaAutores.substring(indexOfContAutores+2);
+    private void coletarAutores(String linha, List<TextPosition> textPositions) throws IOException{
+        try{
+            //Inicia e continua a construção da lista de autores a cada nova chamada
+            if((!construindoTitulo & linhaEstaNegrito(textPositions)) 
+                    & (titulo.contains(linhaAnterior) || coletandoAutores) 
+                    & !titulo.equals("") & autores.isEmpty()){
+                linhaAutores += linha;
+                coletandoAutores = true;
+            }else if(coletandoAutores){ //Caso esteja coletando lista de autores e encontre o final da lista 
+                int contaAutores = 1;
+                int indexOfContAutores = linhaAutores.indexOf(Integer.toString(contaAutores));
 
-                    while (linhaAutores.substring(0, 1).toLowerCase().equals(linhaAutores.substring(0, 1))){
-                        linhaAutores = linhaAutores.substring(1);
-                    }
-                    contaAutores++;
-                    indexOfContAutores = linhaAutores.indexOf(Integer.toString(contaAutores));
-                    
-                    if(indexOfContAutores > 0){
-                        autores += " - ";
+                //Caso o artigo possua apenas um autor
+                if(indexOfContAutores == -1){
+                    autores += linhaAutores.substring(0);
+                }
+
+                while( indexOfContAutores > 0){
+                    autores += linhaAutores.substring(0, indexOfContAutores);
+
+                    if(indexOfContAutores + 10 >= linhaAutores.length()){
+                        break;
+                    }else{
+                        linhaAutores = linhaAutores.substring(indexOfContAutores+2);
+
+                        while (linhaAutores.substring(0, 1).toLowerCase().equals(linhaAutores.substring(0, 1))){
+                            linhaAutores = linhaAutores.substring(1);
+                        }
+                        contaAutores++;
+                        indexOfContAutores = linhaAutores.indexOf(Integer.toString(contaAutores));
+
+                        if(indexOfContAutores > 0){
+                            autores += " - ";
+                        }
                     }
                 }
+                coletandoAutores = false;
             }
-            coletandoAutores = false;
+        }catch(Exception ex){
+            Logger.getLogger(ExtratorPDFEngine.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException("Houve um erro ao extrair os nomes dos autores do artigo: " + titulo);
         }
     }
     
     private boolean linhaEstaNegrito(List<TextPosition> textPositions){
         for (TextPosition tp: textPositions){
-            if (!tp.getFont().getName().toLowerCase().contains("bold")) {
+            if (!tp.getFont().getName().toLowerCase().contains("bold") ) {
                 return false;
             }
         }
