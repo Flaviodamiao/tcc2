@@ -132,7 +132,7 @@
             </form>
 
             <div class="divResultado">
-                <h4>Resultados da busca</h4>
+                <h4>${numResultados} Artigos foram encontrados em ${tempoBusca} ms</h4><br>
                 <table class="tblResultado">
                     <c:forEach var="artigo" items="${artigos}">
                         <tr >

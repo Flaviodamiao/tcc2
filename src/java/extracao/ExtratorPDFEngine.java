@@ -96,19 +96,19 @@ class ExtratorPDFEngine extends PDFTextStripper{
      */
     @Override
     protected void writeString(String linha, List<TextPosition> textPositions) throws IOException{
-            extrairTitulo(linha, textPositions);
-            
-            coletarAutores(linha, textPositions);
+        extrairTitulo(linha, textPositions);
 
-            if(linha.trim().equalsIgnoreCase(padraoInicioArtigo) && !finalizaAnalise){
-                encontrouInicioArtigo = true;
-            }
+        coletarAutores(linha, textPositions);
 
-            if(linha.trim().equalsIgnoreCase(padraoFimAnalise)){
-                finalizaAnalise = true;
-            }
+        if(linha.trim().equalsIgnoreCase(padraoInicioArtigo) && !finalizaAnalise){
+            encontrouInicioArtigo = true;
+        }
 
-            linhaAnterior = linha;
+        if(linha.trim().equalsIgnoreCase(padraoFimAnalise)){
+            finalizaAnalise = true;
+        }
+
+        linhaAnterior = linha;
     }
     
     /**
@@ -120,7 +120,9 @@ class ExtratorPDFEngine extends PDFTextStripper{
         if (linhaAnterior.trim().equals(padraoCabecalho.trim()) || construindoTitulo){
             if(!linhaEstaMaiuscula(textPositions) || !linhaEstaNegrito(textPositions)){
                 construindoTitulo = false;
-            } else{
+            } else if (construindoTitulo){
+                titulo += " " + linha;
+            } else {
                 construindoTitulo = true;
                 titulo += linha;
             }

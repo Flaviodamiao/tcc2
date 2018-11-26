@@ -128,6 +128,8 @@ public class IndexController {
                 model.addAttribute("artigo", artigo);
                 model.addAttribute("edicao", edicao);
                 model.addAttribute("artigos", artigosResultado);
+                model.addAttribute("tempoBusca", buscador.getTempoDeBusca());
+                model.addAttribute("numResultados", buscador.getNumTotalHits());
                 model.addAttribute("filtros", filtros);
                 return "/resultadoBusca";
             }else{

@@ -27,10 +27,14 @@ $("#btnFechar").on("click", function(){
     $("#numero").val("");
 });
 
-//limpa os campos da pesquisa avançada ao clicar no botão de pesquisa simples
 $("#btnPesquisar").on("click", function(){
     if(!validaFormPesquisa()){
         return false;
+    }
+    
+    if($("#conteudoAvanc").val() !== ""){
+        $("#conteudo").val($("#conteudoAvanc").val());
+        $("#filtroConteudo").val($("select[name='filtroConteudoAvanc']").val());
     }
 });
 
@@ -48,19 +52,13 @@ function validaFormPesquisa(){
 }
 
 $("#btnPesquisaAvancada").on("click", function(){
-    
     if(!validaFormPesquisa()){
         return false;
     }
-    
+        
     $("#filtroConteudo").val($("select[name='filtroConteudoAvanc']").val());
     $("#conteudo").val($("#conteudoAvanc").val());
 });
-
-function validaFormIndexar(){
-    
-}
-
 
 function exibirMsg(msg){
     if(msg !== ""){

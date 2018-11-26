@@ -79,10 +79,15 @@ class ExtratorPDF extends Extrator{
             PageExtractor pageExtractor = new PageExtractor(document, paginaAtual + 1, paginaAtual + 1);
             ExtratorPDFEngine extratorEngine = null;
             
+            if(paginaAtual == 78){
+                System.out.println(" ");
+            }
+            
             try {
                 PDDocument pagDoc = pageExtractor.extract();
                 extratorEngine = new ExtratorPDFEngine(pagDoc, edicao.getRevista());
                 extratorEngine.getText(pagDoc);
+               
                 pagDoc.close();
                 encontrouInicioArtigo = extratorEngine.getEncontrouInicioArtigo();
                 finalizaAnalise = extratorEngine.getfinalizaAnalise();
