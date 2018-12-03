@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label for="titulo">Título</label>
                                 <select name="filtroTitulo">
-                                    <option value="MUST">E</option>
+                                    <option value="FILTER">E</option>
                                     <option value="SHOULD">OU</option>
                                     <option value="MUST_NOT">NÃO</option>
                                 </select>
