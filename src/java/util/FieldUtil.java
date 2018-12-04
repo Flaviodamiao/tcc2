@@ -39,24 +39,20 @@ public class FieldUtil {
         List<IndexableField> fieldsEspList = docEsp.getFields();
         List<IndexableField> fieldsResList = docRes.getFields();
         boolean possuiFieldsIguais = false;
-        
-        if (fieldsEspList.size() == fieldsResList.size()){
-            for (IndexableField fieldEsp : fieldsEspList) {
-                for(IndexableField fieldRes: fieldsResList){
-                    if(fieldEsp.name().equals(fieldRes.name()) 
-                            & fieldEsp.stringValue().equalsIgnoreCase(fieldRes.stringValue())){
-                        possuiFieldsIguais = true;
-                        break;
-                    }
-                    possuiFieldsIguais = false;
-                }
-                if(!possuiFieldsIguais){
+       
+        for (IndexableField fieldEsp : fieldsEspList) {
+            for(IndexableField fieldRes: fieldsResList){
+                if(fieldEsp.name().equals(fieldRes.name()) 
+                        & fieldEsp.stringValue().equalsIgnoreCase(fieldRes.stringValue())){
+                    possuiFieldsIguais = true;
                     break;
                 }
+                possuiFieldsIguais = false;
             }
-            return possuiFieldsIguais;
+            if(!possuiFieldsIguais){
+                break;
+            }
         }
-        
-        return false;
+        return possuiFieldsIguais;
     }
 }

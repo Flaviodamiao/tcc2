@@ -209,18 +209,24 @@ public class IndexController {
             @RequestParam("autores") String[] autores,
             Model model){
         try{
-            System.out.println("\n\n-----------------------\n\n");
             for(int i = 0; i < artigos.size(); i++){
                 artigos.get(i).setTitulo(new String(titulos[i].getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
                 artigos.get(i).setAutores(new String(autores[i].getBytes(Charset.forName("ISO-8859-1")), StandardCharsets.UTF_8));
-                System.out.println("TÍTULO: " + artigos.get(i).getTitulo() + "\n"
-                        + "AUTORES: " + artigos.get(i).getAutores());
-            }
-            System.out.println("\n\n---------------------\n\n");
+                }
 
             Indexador indexador = new Indexador(artigos);
-            indexador.indexa();
-            model.addAttribute("msgErro", "Artigos indexados com sucesso!");
+            List<Artigo> artigosPrevIndexados = indexador.indexa();
+            
+            if (artigosPrevIndexados.size() > 0){
+                String msg = "Os seguintes artigos já estavam indexados no sistema e foram desconsiderados: \\n\\ ";
+                
+                for(Artigo artPrevInd: artigosPrevIndexados){
+                    msg += "\\n\\- " + artPrevInd.getTitulo();
+                }
+                model.addAttribute("msgErro", msg);
+            }else{
+                model.addAttribute("msgErro", "Artigos indexados com sucesso!");
+            }
         } catch (Exception e){
             model.addAttribute("msgErro", e.getMessage());
         }

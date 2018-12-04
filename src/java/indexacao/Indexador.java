@@ -47,7 +47,6 @@ import util.FieldUtil;
 public class Indexador {
     private List<Artigo> artigos;
     private String dirIndice = Const.DIRETORIO_INDICE;
-    private String mensagem = "";
     
     //Cria objetos padrão para cada tipo de Fieldtype utilizado pelo sistema
     public static final FieldType TYPE_CONTEUDO;
@@ -98,7 +97,7 @@ public class Indexador {
      * @return Uma lista com os artigos que não foram indexados ou "null" se
      * a lista de artigos passada para o construtor estiver vazia. 
      */
-    public List<Artigo> indexa(){
+    public List<Artigo> indexa() throws IOException{
         if(!artigos.isEmpty()){
             Analyzer analyzer = new BrazilianAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
@@ -117,17 +116,15 @@ public class Indexador {
                         indexWriter.addDocument(doc);
                     } else{
                         artIndexPreviamente.add(artigo);
-                        mensagem = "Um ou mais artigos já estavam indexados.";
                     }
                 }
 
-                indexWriter.close();    
+                indexWriter.close();
+                return artIndexPreviamente;
             } catch (IOException ex) {
                 Logger.getLogger(Indexador.class.getName()).log(Level.SEVERE, null, ex);
-                mensagem = "Erro ao tentar indexar o(s) artigo(s).";
+                throw new IOException("Erro ao tentar indexar o(s) artigo(s).");
             }
-            
-            return artIndexPreviamente;
         } else{
             throw new IllegalStateException("Não foi encintrado nenhum artigo para ser indexado.");
         }
@@ -148,7 +145,7 @@ public class Indexador {
         return document;
     }
     
-    private boolean estaIndexado(Document docNovo){
+    private boolean estaIndexado(Document docNovo) throws IOException{
         try {
             Directory diretorioIndice = FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE));
             
@@ -157,7 +154,7 @@ public class Indexador {
 
                 for(int i = 0; i < reader.numDocs(); i++ ){
                     Document docIndexado = reader.document(i);
-
+                    
                     if (FieldUtil.documentsSaoIguais(docIndexado, docNovo)){
                         return true;
                     }
@@ -167,14 +164,10 @@ public class Indexador {
             }
         } catch (IOException ex) {
             Logger.getLogger(Indexador.class.getName()).log(Level.SEVERE, null, ex);
-            mensagem = "Erro ao verificar se o(s) artigo(s) já está(ão) indexado(s).";
+            throw new IOException("Erro ao verificar se o(s) artigo(s) já está(ão) indexado(s).");
         }
         
         return false;
-    }
-    
-    public String getMensagem(){
-        return mensagem;
     }
     
     //Para fins de teste da classe

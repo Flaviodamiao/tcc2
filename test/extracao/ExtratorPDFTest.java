@@ -59,8 +59,12 @@ public class ExtratorPDFTest {
         extrator.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
         List<Artigo> artigos = extrator.processarEdicao();
         
+        System.out.println(artigoEsp.getTitulo());
+        System.out.println(artigos.get(0).getTitulo());
         System.out.println(artigoEsp.getAutores());
         System.out.println(artigos.get(0).getAutores());
+        System.out.println(artigoEsp.getCaminho());
+        System.out.println(artigos.get(0).getCaminho());
         
         assertTrue(artigos.get(0).equals(artigoEsp) & artigos.size() == 1);
     }

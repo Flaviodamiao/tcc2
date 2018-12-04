@@ -121,7 +121,11 @@ class ExtratorPDFEngine extends PDFTextStripper{
             if(!linhaEstaMaiuscula(textPositions) || !linhaEstaNegrito(textPositions)){
                 construindoTitulo = false;
             } else if (construindoTitulo){
-                titulo += " " + linha;
+                if (titulo.endsWith(" ")){
+                    titulo += linha;
+                }else{
+                    titulo += " " + linha;
+                }
             } else {
                 construindoTitulo = true;
                 titulo += linha;
