@@ -146,28 +146,35 @@ public class Indexador {
     }
     
     private boolean estaIndexado(Document docNovo) throws IOException{
+         
         try {
-            Directory diretorioIndice = FSDirectory.open(Paths.get(Const.DIRETORIO_INDICE));
+            Directory diretorioIndice = FSDirectory.open(Paths.get(dirIndice));
+            IndexReader reader;
             
             if (DirectoryReader.indexExists(diretorioIndice)){
-                IndexReader reader = DirectoryReader.open(diretorioIndice);
+                reader = DirectoryReader.open(diretorioIndice);
 
                 for(int i = 0; i < reader.numDocs(); i++ ){
                     Document docIndexado = reader.document(i);
                     
                     if (FieldUtil.documentsSaoIguais(docIndexado, docNovo)){
+                        diretorioIndice.close();
+                        reader.close();
                         return true;
                     }
                 }
-            } else{
+            }else{
+                diretorioIndice.close();
                 return false;
             }
+            
+            diretorioIndice.close();
+            reader.close();
+            return false;
         } catch (IOException ex) {
             Logger.getLogger(Indexador.class.getName()).log(Level.SEVERE, null, ex);
             throw new IOException("Erro ao verificar se o(s) artigo(s) já está(ão) indexado(s).");
         }
-        
-        return false;
     }
     
     //Para fins de teste da classe

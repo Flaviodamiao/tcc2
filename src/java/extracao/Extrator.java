@@ -33,7 +33,6 @@ public abstract class Extrator{
     protected Edicao edicao;
     protected List<Artigo> artigos;
     protected String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
-    protected static String mensagem = "";
     
     //No campo Artigo.caminho será gravado apenas a estrutura de pastas do repositório,
     //evitando problemas no índice caso a localização do repositório seja mudada
@@ -103,10 +102,6 @@ public abstract class Extrator{
     //Para fins de teste
     public void setCaminhoRepositorio(String caminhoRepositorio){
         this.caminhoRepositorio = caminhoRepositorio;
-    }
-    
-    public static String getMensagem(){
-        return mensagem;
     }
     
     /** 

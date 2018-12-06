@@ -39,6 +39,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
@@ -89,6 +90,7 @@ public class Buscador {
 
             List<Artigo> artigos = getArtigos(searcher, hits);
             reader.close();
+            dirIndice.close();
             
             return artigos;
         } catch (IOException ex) {
@@ -123,7 +125,9 @@ public class Buscador {
                                              break;
                 }
                 
-                builderQuery.add(parser.parse(termos), filtro.getValue());
+                Query query = parser.parse(termos);
+                BooleanClause bClause = new BooleanClause(query, filtro.getValue());
+                builderQuery.add(bClause);
             }
             
             return builderQuery.build();
