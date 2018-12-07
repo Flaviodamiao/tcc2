@@ -52,7 +52,6 @@ public class BuscadorTest {
     public BuscadorTest() {
         buscador = new Buscador();
         buscador.setCaminhoIndice(Const.DIRETORIO_INDICE_TESTES);
-        buscador.setCaminhoRepositorio(Const.DIRETORIO_REPOSITORIO_TESTES);
     }
     
     @Before

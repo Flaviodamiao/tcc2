@@ -44,6 +44,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.SimpleFSDirectory;
 import util.Const;
 
 /**
@@ -54,14 +55,13 @@ public class Buscador {
     private long numTotalHits;
     private long tempoBusca;
     private String caminhoIndice = Const.DIRETORIO_INDICE;
-    private String caminhoRepositorio = Const.DIRETORIO_REPOSITORIO;
     
     public Buscador(){
     }
     
     public List<Artigo> buscar(Artigo artigo, Map<String, BooleanClause.Occur> filtros) throws ParseException, IOException {
         try{
-            Directory dirIndice = FSDirectory.open(Paths.get(caminhoIndice));
+            Directory dirIndice = new SimpleFSDirectory(Paths.get(caminhoIndice));
             IndexReader reader;
 
             if(DirectoryReader.indexExists(dirIndice)){
@@ -176,10 +176,5 @@ public class Buscador {
     //Para fins de teste
     public void setCaminhoIndice(String caminhoIndice){
         this.caminhoIndice = caminhoIndice;
-    }
-    
-    //Para fins de teste
-    public void setCaminhoRepositorio(String caminhoRepositorio){
-        this.caminhoRepositorio = caminhoRepositorio;
     }
 }

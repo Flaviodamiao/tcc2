@@ -126,7 +126,7 @@ public class Indexador {
                 throw new IOException("Erro ao tentar indexar o(s) artigo(s).");
             }
         } else{
-            throw new IllegalStateException("Não foi encintrado nenhum artigo para ser indexado.");
+            throw new IllegalStateException("Não foi encontrado nenhum artigo para ser indexado.");
         }
     }
     
@@ -148,7 +148,7 @@ public class Indexador {
     private boolean estaIndexado(Document docNovo) throws IOException{
          
         try {
-            Directory diretorioIndice = FSDirectory.open(Paths.get(dirIndice));
+            Directory diretorioIndice = new SimpleFSDirectory(Paths.get(dirIndice));
             IndexReader reader;
             
             if (DirectoryReader.indexExists(diretorioIndice)){
