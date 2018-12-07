@@ -43,7 +43,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import util.Const;
 
@@ -81,7 +80,7 @@ public class Buscador {
             }
             
             Date inicioBusca = new Date();
-            TopDocs topDocs = searcher.search(query, 50);
+            TopDocs topDocs = searcher.search(query, 1000);
             Date fimBusca = new Date();
             tempoBusca = fimBusca.getTime() - inicioBusca.getTime();
 
