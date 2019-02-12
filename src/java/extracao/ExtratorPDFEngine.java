@@ -96,7 +96,9 @@ class ExtratorPDFEngine extends PDFTextStripper{
      */
     @Override
     protected void writeString(String linha, List<TextPosition> textPositions) throws IOException{
-        extrairTitulo(linha, textPositions);
+        if(linhaAnterior.trim().equals(padraoCabecalho.trim()) || construindoTitulo){
+            extrairTitulo(linha, textPositions);
+        }
 
         coletarAutores(linha, textPositions);
 
@@ -117,19 +119,17 @@ class ExtratorPDFEngine extends PDFTextStripper{
      * ao título do artigo
      */
     private void extrairTitulo(String linha, List<TextPosition> textPositions){
-        if (linhaAnterior.trim().equals(padraoCabecalho.trim()) || construindoTitulo){
-            if(!linhaEstaMaiuscula(textPositions) || !linhaEstaNegrito(textPositions)){
-                construindoTitulo = false;
-            } else if (construindoTitulo){
-                if (titulo.endsWith(" ")){
-                    titulo += linha;
-                }else{
-                    titulo += " " + linha;
-                }
-            } else {
-                construindoTitulo = true;
+        if(!linhaEstaMaiuscula(textPositions) || !linhaEstaNegrito(textPositions)){
+            construindoTitulo = false;
+        } else if (construindoTitulo){
+            if (titulo.endsWith(" ")){
                 titulo += linha;
+            }else{
+                titulo += " " + linha;
             }
+        } else {
+            construindoTitulo = true;
+            titulo += linha;
         }
     }
     

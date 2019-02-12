@@ -45,7 +45,6 @@ public class Const {
     public static final int TAM_FONTE_TITULO_IGP = 12;
     public static final int TAM_FONTE_NOTA_RODAPE_IGP = 9;
     public static final String PADRAO_CABECALHO_IGP = "REVISTA DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO IFAM";
-    //public static final String PADRAO_CABECALHO_IGP = "---";
     public static final String PADRAO_RODAPE_IGP = "";
     
     /**
